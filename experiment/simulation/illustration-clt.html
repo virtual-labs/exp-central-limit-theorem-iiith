@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/virtual-labs/virtual-style@0.0.8-b/css/style.min.css">
+	<link rel="stylesheet" href="./css/main.css">
+	<script type="text/javascript" id="MathJax-script" async
+		src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+	<title>
+		Central Limit Theorem
+	</title>
+</head>
+
+<body>
+
+	<div class="container">
+
+
+		<div class="columns is-centered">
+			<div class="columns is-centered">
+				<div class="column is-one-quarter v-instruction-title">
+					Tasks
+				</div>
+				<div class="column">
+					<div class="v-tabs">
+						<ul>
+							<li id="Task1" onclick="window.location.href = 'illustration-clt.html';" class="is-active">
+								<a>
+									Illustration of Central Limit Theorem
+								</a>
+							</li>
+
+							<li id="Task2" onclick="window.location.href = 'proof-clt.html';">
+								<a>
+									Proof of Central Limit Theorem
+								</a>
+							</li>
+
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="columns is-centered">
+
+			<div class="column">
+				<div class="v-collapsible-instruction-container v-instruction-container">
+					<div class="v-collapsible is-size-5">Instructions</div>
+					<div class="v-content" style="text-align: left; padding-left: 10%; padding-right: 10%;">
+						<ul style="list-style: disc;">
+							<!-- <b>Quick theory overview:</b>
+							<li>
+								
+							</li> -->
+							<ul style="list-style: disc;">
+								<b>Procedure:</b>
+								<li>
+
+								</li>
+								<li>
+
+                                </li>
+								<li>
+
+                                </li>
+								<li>
+
+                                </li>
+							</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+
+	<section id="page1">
+		<div class="columns is-centered">
+			<div class="column is-11-desktop is-12-tablet is-12-mobile">
+				<div class="v-datalist-container components-list">
+					<br>
+					<p> Question
+					</p>
+					<br>
+				</div>
+			</div>
+		</div>
+
+		<div class="columns is-centered is-flex-direction-row is-flex-wrap-wrap is-align-content-start"
+			style="margin-top: 2%;">
+			<div class="column is-8-desktop is-12-tablet is-12-mobile">
+				<div class="box-question">
+
+
+                    <div class="controls">
+                        <div class="control-group">
+                            <label for="distType">Distribution:</label>
+                            <select id="distType">
+                                <option value="Uniform">Uniform</option>
+                                <option value="Exponential">Exponential</option>
+                                <option value="Normal">Normal (Gaussian)</option>
+                                <option value="Poisson">Poisson</option>
+                            </select>
+                        </div>
+            
+                        <div class="slider-container">
+                            <label for="sampleSize">Sample Size:</label>
+                            <input type="range" id="sampleSize" min="10" max="100" step="10" value="10">
+                            <span class="slider-value" id="sampleSizeValue">10</span>
+                        </div>
+            
+                        <div class="slider-container">
+                            <label for="numSamples">Number of Samples:</label>
+                            <input type="range" id="numSamples" min="1000" max="5000" step="100" value="1000">
+                            <span class="slider-value" id="numSamplesValue">1000</span>
+                        </div>
+                    </div>
+            
+                    <div class="charts-container">
+                        <div class="chart-wrapper">
+                            <canvas id="originalDist"></canvas>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="sampleMeansDist"></canvas>
+                        </div>
+                    </div>
+
+
+				</div>
+			</div>
+			<div class="column is-3-desktop is-4-tablet is-12-mobile">
+				<div class="v-datalist-container components-list canvas-container">
+					<div class="v-datalist-title">Observations</div>
+					<div>
+						<div id="observations1"></div>
+						<div id="results1"></div>
+						<div class="canvas-container">
+							<canvas id="canvas1"></canvas>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</section>
+
+	<script src="https://cdn.jsdelivr.net/gh/virtual-labs/virtual-style@0.0.8-b/js/script.js"></script>
+	<script src="./js/illustration-clt.js"></script>
+</body>
+
+
+</html>
