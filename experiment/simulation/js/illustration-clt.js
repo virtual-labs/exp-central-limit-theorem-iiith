@@ -59,7 +59,7 @@ function calculateNormalParams(data) {
 }
 
 // Function to create histogram data
-function createHistogram(data, bins = 30) {
+function createHistogram(data, bins = 20) {
     const min = Math.min(...data);
     const max = Math.max(...data);
     const binWidth = (max - min) / bins;
@@ -82,7 +82,7 @@ function createHistogram(data, bins = 30) {
 }
 
 // Function to generate normal distribution curve points
-function generateNormalCurve(mean, std, data, bins = 30) {
+function generateNormalCurve(mean, std, data, bins = 20) {
     const min = Math.min(...data);
     const max = Math.max(...data);
     const binWidth = (max - min) / bins;
@@ -211,8 +211,8 @@ function updateVisualization() {
     const { samples, sampleMeans } = generateSamples(distType, sampleSize, numSamples);
     
     // Create histograms
-    const originalHist = createHistogram(samples);
-    const meansHist = createHistogram(sampleMeans);
+    const originalHist = createHistogram(samples, 50);
+    const meansHist = createHistogram(sampleMeans,);
     
     // Calculate normal fit for sample means
     const { mean, std } = calculateNormalParams(sampleMeans);

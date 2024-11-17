@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/virtual-labs/virtual-style@0.0.8-b/css/style.min.css">
+	<link rel="stylesheet" href="./css/proof-clt.css">
+	<script type="text/javascript" id="MathJax-script" async
+		src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+	<title>
+		Central Limit Theorem
+	</title>
+</head>
+
+<body>
+
+	<div class="container">
+		<div class="columns is-centered">
+			<div class="columns is-centered">
+				<div class="column is-one-quarter v-instruction-title">
+					Tasks
+				</div>
+				<div class="column">
+					<div class="v-tabs">
+						<ul>
+							<li id="Task1" onclick="window.location.href = 'illustration-clt.html';" class="is-active">
+								<a>
+									Illustration of Central Limit Theorem
+								</a>
+							</li>
+
+							<li id="Task2" onclick="window.location.href = 'proof-clt.html';">
+								<a>
+									Proof of Central Limit Theorem
+								</a>
+							</li>
+
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="columns is-centered">
+			<div class="column">
+				<div class="v-collapsible-instruction-container v-instruction-container">
+					<div class="v-collapsible is-size-5">Instructions</div>
+					<div class="v-content" style="text-align: left; padding-left: 10%; padding-right: 10%;">
+						<ul style="list-style: disc;">
+							<b>Quick theory overview:</b>
+							<li>
+								The central limit theorem (CLT) states that the distribution of sample means approximates a normal distribution as the sample size gets larger, regardless of the population's distribution
+							</li>
+							<ul style="list-style: disc; margin-bottom: 20px;  margin-top: 20px;">
+								<b>Procedure:</b>
+								<li>
+									Use the drop-down menu to select the original distribution. You can choose between <i>Uniform, Exponential, Poisson and Gaussian</i>
+								</li>
+								<li>
+									Use the slider for <b>Sample Size</b> to vary the sample size.
+								</li>
+								<li>
+									Use the slider for <b>Number of samples</b> to vary the number of samples.
+                                </li>
+								<li>
+									Notice how the sample means distribution converges to a gaussian distribution as number of samples increase, irrespective of the Original Distribution
+                                </li>
+								<li>
+									Also observe that as long as the Sample size is sufficiently high, the convergence of sample means distribution to Gaussian is not affected. 
+								</li>
+							</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+
+    <section id="page1">
+        <div class="columns is-centered">
+            <div class="column is-11-desktop is-12-tablet is-12-mobile">
+                <div class="v-datalist-container components-list">
+                    <br>
+                    <p> Proof of Central Limit Theorem
+                    </p>
+                    <br>
+                </div>
+            </div>
+        </div>
+    
+        <div class="columns is-centered is-flex-direction-row is-flex-wrap-wrap is-align-content-start" style="margin-top: 2%;">
+            <div class="column is-8-desktop is-12-tablet is-12-mobile">
+                <div class="box-question">
+                    <!-- Section content dynamically injected -->
+                    <div class="section-content">
+                        <div class="question-container">
+                            <h2 class="question-title"></h2> <!-- The question will be dynamically inserted here -->
+                        </div>
+                        <div class="options-container">
+                            <!-- Option buttons will be inserted here dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-3-desktop is-4-tablet is-12-mobile">
+                <div class="v-datalist-container components-list canvas-container">
+                    <div class="v-datalist-title">Observations</div>
+                    <div>
+                        <div id="observations1" style="margin-top: 10px;"></div>
+                        <div id="results1"></div>
+                        <div class="canvas-container">
+                            <canvas id="canvas1"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="columns is-centered" style="margin-top: 2%;">
+            <div class="column is-12">
+                <div style="text-align: center;">
+                    <button id="prevBtn" onclick="changeSection('prev')" class="button is-primary">Previous</button>
+                    <button id="nextBtn" onclick="changeSection('next')" class="button is-primary">Next</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+	<script src="https://cdn.jsdelivr.net/gh/virtual-labs/virtual-style@0.0.8-b/js/script.js"></script>
+	<script src="./js/proof-clt.js"></script>
+
+
+</body>
+</html>

@@ -54,24 +54,27 @@
 					<div class="v-collapsible is-size-5">Instructions</div>
 					<div class="v-content" style="text-align: left; padding-left: 10%; padding-right: 10%;">
 						<ul style="list-style: disc;">
-							<!-- <b>Quick theory overview:</b>
+							<b>Quick theory overview:</b>
 							<li>
-								
-							</li> -->
-							<ul style="list-style: disc;">
+								The central limit theorem (CLT) states that the distribution of sample means approximates a normal distribution as the sample size gets larger, regardless of the population's distribution
+							</li>
+							<ul style="list-style: disc; margin-bottom: 20px;  margin-top: 20px;">
 								<b>Procedure:</b>
 								<li>
-
+									Use the drop-down menu to select the original distribution. You can choose between <i>Uniform, Exponential, Poisson and Gaussian</i>
 								</li>
 								<li>
-
+									Use the slider for <b>Sample Size</b> to vary the sample size.
+								</li>
+								<li>
+									Use the slider for <b>Number of samples</b> to vary the number of samples.
                                 </li>
 								<li>
-
+									Notice how the sample means distribution converges to a gaussian distribution as number of samples increase, irrespective of the Original Distribution
                                 </li>
 								<li>
-
-                                </li>
+									Also observe that as long as the Sample size is sufficiently high, the convergence of sample means distribution to Gaussian is not affected. 
+								</li>
 							</ul>
 					</div>
 				</div>
@@ -85,7 +88,7 @@
 			<div class="column is-11-desktop is-12-tablet is-12-mobile">
 				<div class="v-datalist-container components-list">
 					<br>
-					<p> Question
+					<p> Demonstration of Central Limit Theorem
 					</p>
 					<br>
 				</div>
@@ -117,7 +120,7 @@
             
                         <div class="slider-container">
                             <label for="numSamples">Number of Samples:</label>
-                            <input type="range" id="numSamples" min="1000" max="5000" step="100" value="1000">
+                            <input type="range" id="numSamples" min="50" max="1000" step="50" value="50">
                             <span class="slider-value" id="numSamplesValue">1000</span>
                         </div>
                     </div>
@@ -138,7 +141,8 @@
 				<div class="v-datalist-container components-list canvas-container">
 					<div class="v-datalist-title">Observations</div>
 					<div>
-						<div id="observations1"></div>
+						<div id="observations1" style="margin-top: 10px;"></div>
+						Observe how the distribution of sample means converges to Gaussian distribution as number of samples are increased.
 						<div id="results1"></div>
 						<div class="canvas-container">
 							<canvas id="canvas1"></canvas>
