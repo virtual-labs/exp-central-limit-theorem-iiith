@@ -5,19 +5,24 @@
     gap: 20px;                 /* Add space between the charts */
     margin: 20px 0;            /* Add some margin above and below the container */
     flex-wrap: wrap;           /* Allow wrapping on smaller screens */
+    width: 100%;               /* Ensure the container takes up full width */
 }
 
 /* Individual chart wrapper */
 .chart-wrapper {
-    width: 600px;              /* Set the width of each chart */
-    height: 300px;             /* Set the height of each chart */
+    flex: 1;                     /* Distribute available space equally */
+    min-width: 300px;            /* Ensure they don't get too small */
+    max-width: 600px;            /* Limit the width to prevent charts from getting too wide */
+    height: 500px;               /* Set the height of each chart, adjust as needed */
+    position: relative;          /* Ensure proper layout */
 }
 
 /* Canvas for charts */
 canvas {
-    width: 100%;               /* Make canvas fill the wrapper */
-    height: 100%;              /* Maintain aspect ratio */
+    width: 100%;                 /* Make canvas fill the wrapper width */
+    height: 100%;                /* Make canvas fill the wrapper height */
 }
+
 
 /* Media Query for smaller screens */
 @media (max-width: 768px) {

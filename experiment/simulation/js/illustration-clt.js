@@ -174,7 +174,8 @@ function initializeCharts() {
         },
         options: {
             responsive: true,
-            animation: false, // Disable animations for better performance
+            // maintainAspectRatio: false, // Allow custom height/width adjustments
+            // animation: false,
             scales: {
                 x: {
                     ticks: {
@@ -201,6 +202,7 @@ function initializeCharts() {
         }
     });
 }
+
 
 function updateVisualization() {
     const distType = document.getElementById('distType').value;
