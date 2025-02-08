@@ -183,3 +183,95 @@
 .vote-table td:hover {
     background-color: #d9e7f5;
 }
+
+
+/* Responsive Design Adjustments */
+@media screen and (max-width: 1024px) {
+    /* Tablet screens */
+    .columns {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .column {
+        width: 90% !important;
+    }
+
+    .chart-container,
+    .parameters-container {
+        width: 100%;
+    }
+
+    .question-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .option-btn {
+        flex: 1 1 45%; /* Adjust button width for better spacing */
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .number-input {
+        width: 30%;
+    }
+
+    .vote-table td {
+        width: auto;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    /* Mobile screens */
+    .container {
+        padding: 10px;
+    }
+
+    .columns {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .column {
+        width: 100% !important;
+    }
+
+    .v-instruction-title {
+        text-align: center;
+        font-size: 18px;
+    }
+
+    .box-question {
+        padding: 15px;
+    }
+
+    .question-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .option-btn {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .number-input {
+        width: 50%;
+    }
+
+    .chart-container,
+    .parameters-container {
+        width: 100%;
+        height: auto;
+    }
+
+    .vote-table {
+        width: 100%;
+    }
+
+    .vote-table td {
+        font-size: 12px;
+        padding: 5px;
+    }
+}
