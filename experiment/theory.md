@@ -133,14 +133,14 @@ $
 ## Conclusion:
 The CLT is powerful because it justifies the use of normal distribution methods in many real-world scenarios, even when the population distribution is unknown. It is a cornerstone of statistical theory and applications. -->
 
-# Theory
+## Theory
 
 
-## Central Limit Theorem (CLT)
+### Central Limit Theorem (CLT)
 
 The **Central Limit Theorem (CLT)** is one of the foundational results in probability theory and statistics. It explains how, under certain conditions, the distribution of the sample mean (or normalized sum) converges to a normal distribution, even if the original data is not normally distributed.
 
-### Statement of CLT
+#### Statement of CLT
 Let $ X_1, X_2, \ldots, X_n $ be a sequence of independent and identically distributed (i.i.d.) random variables with mean $ \mu $ and variance $ \sigma^2 $. Define the normalized sum:
 
 $
@@ -155,7 +155,7 @@ $
 
 ---
 
-### Properties of CLT
+#### Properties of CLT
 1. **Mean of Sample Means**:
    - The mean of the sample means is equal to the population mean $ \mu $.
    
@@ -165,14 +165,14 @@ $
 3. **Normal Approximation**:
    - The approximation improves with larger sample sizes.
 
-### Example: Rolling a Die
+#### Example: Rolling a Die
 - Population: Outcomes of a fair six-sided die $ \{1, 2, 3, 4, 5, 6\} $.
 - Population Mean $ \mu = 3.5 $, Variance $ \sigma^2 = 2.92 $.
 - If we roll the die $ n = 5 $ times repeatedly and calculate the sample means, the distribution of these means will approach a normal distribution as the number of rolls increases.
 
 ---
 
-## Characteristic Functions of Random Variables
+### Characteristic Functions of Random Variables
 
 The **characteristic function** of a random variable $ X $ is a powerful tool in probability theory, defined as:
 
@@ -182,7 +182,7 @@ $
 
 where $ i $ is the imaginary unit and $ t $ is a real parameter.
 
-### Key Properties
+#### Key Properties
 1. **Existence**: The characteristic function always exists for any random variable.
 2. **Uniqueness**: It uniquely determines the probability distribution of a random variable.
 3. **Convolution Property**: The characteristic function of the sum of independent random variables is the product of their individual characteristic functions:
@@ -193,7 +193,7 @@ where $ i $ is the imaginary unit and $ t $ is a real parameter.
 
 ---
 
-## Role of Characteristic Functions in CLT
+### Role of Characteristic Functions in CLT
 
 Characteristic functions simplify the proof and understanding of the Central Limit Theorem because:
 1. **Transforming Convolution to Multiplication**:
@@ -201,7 +201,7 @@ Characteristic functions simplify the proof and understanding of the Central Lim
 2. **Analyzing Limiting Behavior**:
    - The limiting behavior of the characteristic function of the normalized sum of random variables directly leads to the Gaussian distribution.
 
-### Formal Proof Idea Using Characteristic Functions
+#### Formal Proof Idea Using Characteristic Functions
 Let $ X_1, X_2, \ldots, X_n $ be i.i.d. random variables with mean $ \mu $ and variance $ \sigma^2 $. Define:
 
 $

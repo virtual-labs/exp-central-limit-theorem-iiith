@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/virtual-labs/virtual-style@0.0.8-b/css/style.min.css">
-    <link rel="stylesheet" href="./css/application-clt.css">
+    <link rel="stylesheet" href="./css/style.css">
     <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
     <title>Election Simulation</title>
@@ -16,21 +16,27 @@
 
     <div class="container">
         <div class="columns is-centered">
-            <div class="column is-one-quarter v-instruction-title">
-                Tasks
+            <div class="column is-full">
+                <h2 class="tasks-heading">Tasks</h2>
             </div>
+        </div>
+        <div class="columns is-centered">
             <div class="column">
                 <div class="v-tabs">
                     <ul>
-                        <li id="Task1" onclick="window.location.href = 'illustration-clt.html';">
-                            <a>Illustration of Central Limit Theorem</a>
+                        <li onclick="window.location.href = 'illustration-clt.html';">
+                            <a>Sub Experiment - 1</a>
                         </li>
-                        <li id="Task2" onclick="window.location.href = 'application-clt.html';" class="is-active">
-                            <a>Election Simulation</a>
+                        <li class="is-active" onclick="window.location.href = 'application-clt.html';">
+                            <a>Sub Experiment - 2</a>
                         </li>
                     </ul>
                 </div>
             </div>
+        </div>
+
+		<div class="subheading-box">
+            <h3 class="title">Election Simulation: Application of CLT</h3>
         </div>
 
         <div class="columns is-centered">
@@ -43,12 +49,15 @@
                             <li>Refer to the critical values table in the theory section to know \(z\)-critical values for a given confidence level.</li>
                             <li>Recall that Margin of error = Critical Value \(\times\) Standard Error</li>
                             <li>And standard error is the \(\frac{\text{standard deviation of the sample}}{\sqrt{n}}\)</li>
+							<br>
                             <b>Procedure:</b>
-                            <li>Select the number of candidates and voters using the provided dropdowns.</li>
-                            <li>Click on the candidates to cast votes.</li>
-                            <li>The chart will dynamically update, showing the vote distribution.</li>
-                            <li>Now fill the confidence required, and its corresponding critical value. Check the value to proceed furthur.</li>
-                            <li>Find the standard error using standard deviation of the sampled population and compute margin of error using it.</li>
+							<ul style="list-style: circle; margin-left: 20px;">
+								<li>Select the number of candidates using the provided dropdown.</li>
+								<li>Click on the candidate buttons at the bottom to cast votes.</li>
+								<li>The chart and statistics will dynamically update.</li>
+								<li>Enter the required Confidence Level and its corresponding z-critical value, then click "Check".</li>
+								<li>Calculate and enter the Standard Error and Margin of Error based on the provided formulas and statistics.</li>
+							</ul>
                         </ul>
                     </div>
                 </div>
@@ -57,139 +66,76 @@
     </div>
 
     <section id="page1">
-		<div class="columns is-centered">
-			<div class="column is-11-desktop is-12-tablet is-12-mobile">
-				<div class="v-datalist-container components-list">
-					<br>
-					<p> Application of CLT in exit polls. (Read Instructions for experiment procedure)
-					</p>
-					<br>
-				</div>
-			</div>
-		</div>
         <div class="columns is-centered">
-            <div class="column is-8-desktop is-12-tablet is-12-mobile">
-                <div class="box-question">
-                    <div class="section-content">
-                        <div class="question-container">
-                            <h2 class="question-title" style="align-self: center;">Select Number of Candidates:</h2>
-                            <select id="numCandidates" class="option-btn" style="height: 50%; align-self: center;">
+            <div class="column is-8-desktop is-9-tablet">
+                <div class="white-boxed-panel">
+                    <!-- Top Controls: Candidate Selection & Stats -->
+                    <div class="election-top-controls">
+                        <div class="control-item">
+                            <label for="numCandidates">Select Number of Candidates:</label>
+                            <select id="numCandidates">
                                 <option value="3">3 Candidates</option>
                                 <option value="4">4 Candidates</option>
                                 <option value="5">5 Candidates</option>
                             </select>
-                            <!-- <h2 class="question-title" style="margin-top: 10px;">Select Number of Voters:</h2>
-                            <select id="numVoters" class="option-btn">
-                                <option value="50">50 Voters</option>
-                                <option value="100">100 Voters</option>
-                                <option value="200">200 Voters</option>
-                            </select> -->
-							<div id="stats-display" style="padding: 20px; margin-top: 20px; background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 8px; width: fit-content;">
-								<!-- Content will be added dynamically -->
-							</div>
-							
                         </div>
-						<div class="column is-12-desktop is-4-tablet is-100-mobile">
-						<div class="question-container" style="height: 400px;">
-							<div class="chart-container">
-								<canvas id="voteChart"></canvas>
-							</div>
-							
-							<div class="parameters-container">
-								<p style="margin-bottom: 10px;">Sample Estimate for candidates</p>
-								<div id="vote-table"></div>
-								
-								<div class="options-container">
-									<p>Enter the Confidence Level required (in %)</p>
-									<select id="input-field-confidence" class="number-input" onchange="validateInput(this)">
-										<option value="50">50%</option>
-										<option value="75">75%</option>
-										<option value="90">90%</option>
-										<option value="95" selected>95%</option>
-										<option value="99">99%</option>
-										<option value="99.9">99.9%</option>
-									</select>
-									
-									<small id="input-error" style="color: red; display: none;">Please enter a value between 0 and 100 (exclusive).</small>
-								</div>
-
-								<div class="options-container">
-									<p style="width: 100%; align-self: center;">Enter the critical value for the confidence level</p>
-									<input 
-									style="width: 70px;"
-									type="number" 
-									class="number-input" 
-									id="input-field-critical" 
-									min="1" 
-									max="99" 
-									step="1" 
-									>
-									<!-- Check Button -->
-									<button 
-										style="padding: 8px 16px; background-color: rgb(45, 183, 224); color: white; border: none; border-radius: 8px; cursor: pointer; align-self: center; transition: background-color 0.3s, transform 0.3s;" 
-										onclick="checkCriticalValue()"
-										onmouseover="this.style.backgroundColor='rgb(34, 150, 190)';"
-										onmouseout="this.style.backgroundColor='rgb(45, 183, 224)';">
-										Check
-									</button>
-								</div>
-								
-								<div class="options-container">
-									<p style="width: 100%; align-self: center;">Enter the Standard Error</p>
-									<input 
-									style="width: 70px;"
-									type="number" 
-									class="number-input" 
-									id="input-field-se" 
-									step="0.001" 
-									>
-									<!-- Check Button -->
-									<button 
-										style="padding: 8px 16px; background-color: rgb(45, 183, 224); color: white; border: none; border-radius: 8px; cursor: pointer; align-self: center; transition: background-color 0.3s, transform 0.3s;" 
-										onclick="checkStandardError()"
-										onmouseover="this.style.backgroundColor='rgb(34, 150, 190)';"
-										onmouseout="this.style.backgroundColor='rgb(45, 183, 224)';">
-										Check
-									</button>
-								</div>
-								
-								<div class="options-container">
-									<p style="width: 100%; align-self: center;">Enter the Margin of error (in %)</p>
-									<input 
-									style="width: 70px;"
-									type="number" 
-									class="number-input" 
-									id="input-field-me" 
-									step="0.001" 
-									>
-									<!-- Check Button -->
-									<button 
-										style="padding: 8px 16px; background-color: rgb(45, 183, 224); color: white; border: none; border-radius: 8px; cursor: pointer; align-self: center; transition: background-color 0.3s, transform 0.3s;" 
-										onclick="checkME()"
-										onmouseover="this.style.backgroundColor='rgb(34, 150, 190)';"
-										onmouseout="this.style.backgroundColor='rgb(45, 183, 224)';">
-										Check
-									</button>
-								</div>
-
-						
-							</div>
-						</div>
-						</div>
-
-                        <div class="options-container" id="candidate-buttons">
-                            <!-- Candidate buttons will be dynamically inserted here -->
+                        <div id="stats-display" class="control-item">
+                            <!-- Stats will be dynamically inserted here by JS -->
                         </div>
+                    </div>
+
+                    <!-- Main Content: Chart and Parameters -->
+                    <div class="election-main-content">
+                        <div class="chart-container">
+                            <canvas id="voteChart"></canvas>
+                        </div>
+                        
+                        <div class="parameters-container">
+                            <p>Sample Estimate for Candidates</p>
+                            <div id="vote-table"></div>
+                            
+                            <div class="options-container">
+                                <label>Confidence Level (%):</label>
+                                <select id="input-field-confidence" onchange="validateInput(this)">
+                                    <option value="50">50%</option>
+                                    <option value="75">75%</option>
+                                    <option value="90">90%</option>
+                                    <option value="95" selected>95%</option>
+                                    <option value="99">99%</option>
+                                    <option value="99.9">99.9%</option>
+                                </select>
+                            </div>
+
+                            <div class="options-container">
+                                <label>Critical Value:</label>
+                                <input type="number" id="input-field-critical" step="0.001">
+                                <button class="check-btn" onclick="checkCriticalValue()">Check</button>
+                            </div>
+                            
+                            <div class="options-container">
+                                <label>Standard Error:</label>
+                                <input type="number" id="input-field-se" step="0.001">
+                                <button class="check-btn" onclick="checkStandardError()">Check</button>
+                            </div>
+                            
+                            <div class="options-container">
+                                <label>Margin of Error (%):</label>
+                                <input type="number" id="input-field-me" step="0.001">
+                                <button class="check-btn" onclick="checkME()">Check</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Controls: Vote Buttons -->
+                    <div class="election-vote-buttons" id="candidate-buttons">
+                        <!-- Candidate buttons will be dynamically inserted here -->
                     </div>
                 </div>
             </div>
-            <div class="column is-3-desktop is-4-tablet is-12-mobile">
-                <div class="v-datalist-container components-list canvas-container">
+            <div class="column is-3-desktop is-12-tablet">
+                <div class="v-datalist-container components-list">
                     <div class="v-datalist-title">Observations</div>
-					<p style="font-size: 22px;" id="observations"></p>
-                    <div class="canvas-container">
-                        <canvas id="canvas"></canvas>
-                    </div>
+					<p id="observations" style="font-size: 1em;"></p>
                 </div>
             </div>
         </div>
@@ -199,5 +145,4 @@
     <script src="./js/application-clt.js"></script>
 
 </body>
-
 </html>

@@ -1,0 +1,343 @@
+/* --- UNIFIED STYLESHEET (style.css) --- */
+
+/* ----------------------------------------
+   Base, Header & Tab Styling
+   ---------------------------------------- */
+body {
+    font-family: 'Open Sans', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    padding-top: 20px;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.tasks-heading {
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #444;
+}
+
+.v-tabs ul {
+    display: flex;
+    justify-content: left;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.v-tabs li {
+    display: inline-block;
+    margin: 0;
+    cursor: pointer;
+}
+
+.v-tabs a {
+    display: inline-block;
+    padding: 0.75rem 1.25rem;
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+}
+
+.v-tabs li.is-active>a {
+    color: #3273dc;
+    border-bottom: 3px solid #3273dc;
+}
+
+.v-tabs a:hover {
+    background-color: #f0f0f0;
+    border-radius: 4px;
+}
+
+.subheading-box {
+    background-color: #f7fdf7;
+    border-left: 4px solid #3c763d;
+    padding: 0.75rem 1rem;
+    margin: 1.5rem 0;
+    border-radius: 4px;
+}
+
+.subheading-box .title {
+    color: #3c763d;
+    font-size: 1.25rem;
+    margin: 0;
+    font-weight: 600;
+}
+
+/* ----------------------------------------
+   Main Content Panels & Observation Box
+   ---------------------------------------- */
+.white-boxed-panel {
+    background-color: #fff;
+    border: 1px solid #dbdbdb;
+    border-radius: 6px;
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    height: 100%;
+}
+
+.v-datalist-container.components-list {
+    border: 2px solid #8dc63f;
+    border-radius: 8px;
+    padding: 1rem;
+    background-color: #fafafa;
+    height: 100%;
+}
+.v-datalist-title {
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+    font-weight: 600;
+    color: #363636;
+}
+
+
+/* ----------------------------------------
+   Styles for Illustration of CLT
+   ---------------------------------------- */
+.charts-container {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;    
+    gap: 30px;              
+    margin-top: 30px; 
+}
+
+.chart-wrapper {
+    width: 100%;            
+    max-width: 700px;       
+    height: 350px;          
+    position: relative;
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.controls {
+    display: flex;
+    justify-content: space-around; 
+    align-items: center; 
+    gap: 25px;
+    flex-wrap: wrap;
+    padding-bottom: 25px;
+    border-bottom: 1px solid #eee;
+}
+
+.control-group,
+.slider-container {
+    flex: 1;
+    min-width: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    text-align: center;
+}
+
+.controls label, .election-top-controls label {
+    font-weight: 500;
+    margin-bottom: 10px;
+    color: #363636;
+    font-size: 0.95em;
+}
+
+select {
+    width: 100%;
+    max-width: 200px; 
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+}
+
+.slider-value {
+    margin-top: 5px;
+    font-size: 0.9em;
+    color: #555;
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 5px; 
+    background: #e9e9e9; 
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px; 
+    height: 18px;
+    background: #4481c2; 
+    border-radius: 50%;
+    border: none; 
+    box-shadow: 0 0 2px rgba(0,0,0,0.3);
+}
+
+/* ----------------------------------------
+   Styles for Application of CLT (Election Sim)
+   ---------------------------------------- */
+
+.election-top-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 20px;
+}
+.control-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+#stats-display {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px 15px;
+    text-align: center;
+}
+
+.election-main-content {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.chart-container {
+    flex: 1;
+    min-width: 300px;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 6px;
+}
+
+.parameters-container {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px; /* Increased gap */
+    padding: 15px; /* Increased padding */
+    border: 1px solid #eee;
+    border-radius: 6px;
+}
+.parameters-container > p {
+    text-align: center;
+    font-weight: bold;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+.options-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+.options-container label {
+    flex-basis: 50%;
+    text-align: left;
+    font-size: 0.9em;
+    margin-bottom: 0;
+}
+.options-container input, .options-container select {
+    flex: 1;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.check-btn {
+    padding: 6px 12px;
+    background-color: #2db6e0;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-left: 5px;
+    transition: background-color 0.3s;
+}
+.check-btn:hover {
+    background-color: #2592b3;
+}
+
+.election-vote-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+.option-btn {
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+.option-btn:hover {
+    background-color: #e0e0e0;
+}
+.vote-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.vote-table td {
+    padding: 5px;
+    border: 1px solid #ccc;
+    text-align: center;
+    font-size: 0.9em;
+}
+.vote-table tr:first-child td {
+    background-color: #f0f0f0;
+    font-weight: bold;
+}
+
+
+/* ----------------------------------------
+   Responsiveness
+   ---------------------------------------- */
+@media (max-width: 1024px) {
+    .columns {
+        flex-direction: column;
+        align-items: center;
+    }
+    .column {
+        width: 90% !important;
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .white-boxed-panel {
+        width: 100%;
+        padding: 1.5rem;
+    }
+    .chart-wrapper, .chart-container, .parameters-container {
+        height: auto;
+        max-height: none;
+    }
+    .election-main-content, .election-top-controls {
+        flex-direction: column;
+    }
+    .slider-container {
+        width: 100%;
+    }
+}

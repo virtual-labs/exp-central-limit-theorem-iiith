@@ -1,24 +1,31 @@
 ## Introduction
 
+| `<b>`Discipline  | `<b>`Mathematics                      |
+| :----------------- | :-------------------------------------- |
+| `<b>` Lab        | `<b>` Probability and Random Variable |
+| `<b>` Experiment | `<b>` Central Limit Theorem         |
 
-<b>Discipline | <b>Fill your discipline name here
-:--|:--|
-<b> Lab | <b> Fill your lab name here
-<b> Experiment|     <b> Fill your experiment name and number here
+### About the Experiment
 
-### About the Experiment 
+An Introduction to Gaussian Random Vectors
 
-Fill a brief description of this experiment here
+| `<b>`Name of Developer | `<b>` Penukonda Naga Chandana                 |
+| :----------------------- | :---------------------------------------------- |
+| `<b>` Institute        | `<b>`  IIIT Hyderabad                         |
+| `<b>` Email id         | `<b>`  penukonda.chandana@students.iiit.ac.in |
+| `<b>` Department       | SPCRC                                           |
 
-<b>Name of Developer | <b> Fill the name of experiment owner here 
-:--|:--|
-<b> Institute | <b>  
-<b> Email id|     <b>  
-<b> Department |  
+| `<b>`Name of Developer | `<b>` Tejas Srivastava                      |
+| :----------------------- | :-------------------------------------------- |
+| `<b>` Institute        | `<b>`  IIIT Hyderabad                       |
+| `<b>` Email id         | `<b>`  tejas.srivastava@students.iiit.ac.in |
+| `<b>` Department       | SPCRC                                         |
 
 ### Contributors List
 
-SrNo | Name | Faculty or Student | Department| Institute | Email id
-:--|:--|:--|:--|:--|:--|
-1 | . | . | . | . | .
-2 | . | . | . | . | .
+| SrNo | Name                    | Faculty or Student | Department | Institute      | Email id                               |
+| :--- | :---------------------- | :----------------- | :--------- | :------------- | :------------------------------------- |
+| 1    | Gowtham Raghunath Kurri | Faculty            | SPCRC      | IIIT Hyderabad | gowtham.kurri@iiit.ac.in               |
+| 2    | Lalitha Vadlamani       | Faculty            | SPCRC      | IIIT Hyderabad | lalitha.v@iiit.ac.in                   |
+| 3    | Penukonda Naga Chandana | Student            | SPCRC      | IIIT Hyderabad | penukonda.chandana@students.iiit.ac.in |
+| 4    | Tejas Srivastava        | Student            | SPCRC      | IIIT Hyderabad | tejas.srivastava@students.iiit.ac.in   |
