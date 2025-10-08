@@ -2,7 +2,7 @@
   "version": 2.0,
   "questions": [
     {
-      "question": "How does the characteristic function help prove the CLT?",
+      "question": "1: How does the characteristic function help prove the CLT?",
       "answers": {
         "a": "It simplifies the calculation of the population mean.",
         "b": "It shows that the distribution of normalized sums converges to $ /exp(/frac{-t^2}{2}) $",
@@ -19,7 +19,7 @@
       "difficulty": "intermediate"
     },
     {
-      "question": "What happens to the rate of convergence to normality in the CLT if the population distribution is highly skewed?",
+      "question": "2: What happens to the rate of convergence to normality in the CLT if the population distribution is highly skewed?",
       "answers": {
         "a": "Convergence happens faster.",
         "b": "Convergence happens slower.",
@@ -36,7 +36,7 @@
       "difficulty": "intermediate"
     },
     {
-      "question": "Consider a distribution where $ X_i $ has infinite variance. Can the CLT still apply?",
+      "question": "3: Consider a distribution where $ X_i $ has infinite variance. Can the CLT still apply?",
       "answers": {
         "a": "Yes, as long as the mean is finite.",
         "b": "Yes, but only if $ X_i $ are not identically distributed.",
@@ -53,7 +53,7 @@
       "difficulty": "intermediate"
     },
     {
-      "question": "Which statement about the sample variance $ S^2 $ is true in the context of CLT?",
+      "question": "4: Which statement about the sample variance $ S^2 $ is true in the context of CLT?",
       "answers": {
         "a": "$ S^2 $ is unbiased for $ /sigma^2 $.",
         "b": "$ S^2 $ converges to $ /frac{/sigma^2}{n} $ as $ n /to /infty $.",

@@ -2,7 +2,7 @@
   "version": 2.0,
   "questions": [
     {
-      "question": "What does the Central Limit Theorem state about the sample mean?",
+      "question": "1: What does the Central Limit Theorem state about the sample mean?",
       "answers": {
         "a": "The sample mean will always equal the population mean.",
         "b": "The sample mean follows the same distribution as the population distribution.",
@@ -19,7 +19,7 @@
       "difficulty": "beginner"
     },
     {
-      "question": "Which of the following conditions must be satisfied for the CLT to hold?",
+      "question": "2: Which of the following conditions must be satisfied for the CLT to hold?",
       "answers": {
         "a": "The population must be normally distributed.",
         "b": "The sample size must be sufficiently large.",
@@ -36,7 +36,7 @@
       "difficulty": "beginner"
     },
     {
-      "question": "If the population has a mean $ \\mu = 10 $ and variance $ \\sigma^2 = 4 $, what is the variance of the sample mean for a sample size $ n = 16 $ ?",
+      "question": "3: If the population has a mean $ \\mu = 10 $ and variance $ \\sigma^2 = 4 $, what is the variance of the sample mean for a sample size $ n = 16 $ ?",
       "answers": {
         "a": "4",
         "b": "0.25",
@@ -53,7 +53,7 @@
       "difficulty": "beginner"
     },
     {
-      "question": "The Central Limit Theorem can be applied to which of the following scenarios?",
+      "question": "4: The Central Limit Theorem can be applied to which of the following scenarios?",
       "answers": {
         "a": "Calculating the average weight of individuals in a city using a sample.",
         "b": "Studying the variance of a single dataset with $ n = 10 $.",
