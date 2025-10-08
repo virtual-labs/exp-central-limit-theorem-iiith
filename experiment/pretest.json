@@ -36,7 +36,7 @@
       "difficulty": "beginner"
     },
     {
-      "question": "If the population has a mean $ /mu = 10 $ and variance $ /sigma^2 = 4 $, what is the variance of the sample mean for a sample size $ n = 16 $ ?",
+      "question": "If the population has a mean $ \\mu = 10 $ and variance $ \\sigma^2 = 4 $, what is the variance of the sample mean for a sample size $ n = 16 $ ?",
       "answers": {
         "a": "4",
         "b": "0.25",
@@ -45,7 +45,7 @@
       },
       "explanations": {
         "a": "This is the variance of the population, not the sample mean.",
-        "b": "The variance of the sample mean is given by $ /frac{/sigma^2}{n} $. For $ /sigma^2 = 4 $ and $ n = 16 $ we can calculate the value as $ 0.25 $.",
+        "b": "The variance of the sample mean is given by $ \\frac{\\sigma^2}{n} $. For $ \\sigma^2 = 4 $ and $ n = 16 $ we can calculate the value as $ 0.25 $.",
         "c": "Misapplication of the formula for sample variance.",
         "d": "Misapplication of the formula for sample variance."
       },
