@@ -7,9 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/virtual-labs/virtual-style@0.0.8-b/css/style.min.css">
     <link rel="stylesheet" href="./css/style.css">
-    <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
-    <title>Election Simulation</title>
+    <title>CLT Demonstration</title>
 </head>
 
 <body>
@@ -35,33 +34,8 @@
             </div>
         </div>
 
-		<div class="subheading-box">
-            <h3 class="title">Election Simulation: Application of CLT</h3>
-        </div>
-
-        <div class="columns is-centered">
-            <div class="column">
-                <div class="v-collapsible-instruction-container v-instruction-container" style="margin-bottom: 10px;">
-                    <div class="v-collapsible is-size-5">Instructions</div>
-                    <div class="v-content" style="text-align: left; padding: 0 10%;">
-                        <ul style="list-style: disc; margin-bottom: 20px;">
-                            <b>Quick Theory Overview:</b>
-                            <li>Refer to the critical values table in the theory section to know \(z\)-critical values for a given confidence level.</li>
-                            <li>Recall that Margin of error = Critical Value \(\times\) Standard Error</li>
-                            <li>And standard error is the \(\frac{\text{standard deviation of the sample}}{\sqrt{n}}\)</li>
-							<br>
-                            <b>Procedure:</b>
-							<ul style="list-style: circle; margin-left: 20px;">
-								<li>Select the number of candidates using the provided dropdown.</li>
-								<li>Click on the candidate buttons at the bottom to cast votes.</li>
-								<li>The chart and statistics will dynamically update.</li>
-								<li>Enter the required Confidence Level and its corresponding z-critical value, then click "Check".</li>
-								<li>Calculate and enter the Standard Error and Margin of Error based on the provided formulas and statistics.</li>
-							</ul>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+        <div class="subheading-box">
+            <h3 class="title">Visualizing the Central Limit Theorem</h3>
         </div>
     </div>
 
@@ -69,73 +43,49 @@
         <div class="columns is-centered">
             <div class="column is-8-desktop is-9-tablet">
                 <div class="white-boxed-panel">
-                    <!-- Top Controls: Candidate Selection & Stats -->
+                    <!-- Top Controls -->
                     <div class="election-top-controls">
-                        <div class="control-item">
-                            <label for="numCandidates">Select Number of Candidates:</label>
-                            <select id="numCandidates">
-                                <option value="3">3 Candidates</option>
-                                <option value="4">4 Candidates</option>
-                                <option value="5">5 Candidates</option>
-                            </select>
+                        <div class="control-item slider-container">
+                            <label for="sampleSize">Sample Size (n): <span id="sampleSizeValue">100</span></label>
+                            <input type="range" id="sampleSize" min="10" max="500" value="100">
                         </div>
-                        <div id="stats-display" class="control-item">
-                            <!-- Stats will be dynamically inserted here by JS -->
+                        <div class="control-item button-group">
+                            <button class="option-btn" id="drawOneSample">Draw 1 Sample</button>
+                            <button class="option-btn" id="drawHundredSamples">Draw 100 Samples</button>
+                            <button class="option-btn reset-btn" id="resetSimulation">Reset</button>
                         </div>
                     </div>
 
-                    <!-- Main Content: Chart and Parameters -->
+                    <!-- Main Content: Charts -->
                     <div class="election-main-content">
-                        <div class="chart-container">
-                            <canvas id="voteChart"></canvas>
-                        </div>
-                        
-                        <div class="parameters-container">
-                            <p>Sample Estimate for Candidates</p>
-                            <div id="vote-table"></div>
-                            
-                            <div class="options-container">
-                                <label>Confidence Level (%):</label>
-                                <select id="input-field-confidence" onchange="validateInput(this)">
-                                    <option value="50">50%</option>
-                                    <option value="75">75%</option>
-                                    <option value="90">90%</option>
-                                    <option value="95" selected>95%</option>
-                                    <option value="99">99%</option>
-                                    <option value="99.9">99.9%</option>
-                                </select>
+                        <div class="chart-column-small">
+                            <div class="chart-wrapper small">
+                                <canvas id="populationChart"></canvas>
                             </div>
-
-                            <div class="options-container">
-                                <label>Critical Value:</label>
-                                <input type="number" id="input-field-critical" step="0.001">
-                                <button class="check-btn" onclick="checkCriticalValue()">Check</button>
-                            </div>
-                            
-                            <div class="options-container">
-                                <label>Standard Error:</label>
-                                <input type="number" id="input-field-se" step="0.001">
-                                <button class="check-btn" onclick="checkStandardError()">Check</button>
-                            </div>
-                            
-                            <div class="options-container">
-                                <label>Margin of Error (%):</label>
-                                <input type="number" id="input-field-me" step="0.001">
-                                <button class="check-btn" onclick="checkME()">Check</button>
+                            <div class="chart-wrapper small">
+                                <canvas id="lastSampleChart"></canvas>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Bottom Controls: Vote Buttons -->
-                    <div class="election-vote-buttons" id="candidate-buttons">
-                        <!-- Candidate buttons will be dynamically inserted here -->
+                        <div class="chart-column-large">
+                             <div class="chart-wrapper large">
+                                <canvas id="samplingDistChart"></canvas>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="column is-3-desktop is-12-tablet">
                 <div class="v-datalist-container components-list">
-                    <div class="v-datalist-title">Observations</div>
-					<p id="observations" style="font-size: 1em;"></p>
+                    <div class="v-datalist-title">Observations & Statistics</div>
+                    <div id="stats-display">
+                        <p><strong>True Population Proportion (Cand. 1):</strong> <span id="true-mean">0.00</span></p>
+                        <hr>
+                        <p><strong>Samples Drawn:</strong> <span id="num-samples">0</span></p>
+                        <p><strong>Mean of Sample Proportions:</strong> <span id="mean-of-means">N/A</span></p>
+                        <p><strong>Standard Error (from samples):</strong> <span id="se-of-means">N/A</span></p>
+                        <p><strong>Theoretical Standard Error:</strong> <span id="theoretical-se">N/A</span></p>
+                    </div>
+					<p id="observations" style="font-size: 1em; margin-top: 15px;"></p>
                 </div>
             </div>
         </div>

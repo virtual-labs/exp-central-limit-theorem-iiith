@@ -1,269 +1,236 @@
-let voteCounts = [];
-let voteChart = null;
-let sampleSize = 0;
-let std = 0;
+// --- SCRIPT FOR CLT DEMONSTRATION (application-clt.js) ---
 
-// Assume std and sampleSize are global variables
-function displayStats() {
-    const statsDiv = document.getElementById("stats-display");
-    
-    // Update the content dynamically
-    statsDiv.innerHTML = `
-    <div style="display: flex; gap: 20px; align-items: center;">
-        <p style="margin: 0; font-size: 16px; color: #555;">
-            <strong>Total Votes:</strong> ${sampleSize}
-        </p>
-        <p style="margin: 0; font-size: 16px; color: #555;">
-            <strong>Standard Deviation:</strong> ${std.toFixed(2)}
-        </p>
-    </div>
-`;
-}
+// Chart instances
+let populationChart, lastSampleChart, samplingDistChart;
 
+// Data stores
+const POPULATION_PROPORTIONS = [0.45, 0.35, 0.20]; // True proportions for 3 candidates
+const POPULATION_MEAN = POPULATION_PROPORTIONS[0]; // Focusing on Candidate 1
+let sampleMeans = []; // To store the mean (proportion) of each sample
 
-function displayVoteCounts(voteCounts) {
-    const numCandidates = parseInt(document.getElementById("numCandidates").value);
-    
-    // Dynamically generate the candidates list
-    const candidates = [];
-    for (let i = 1; i <= numCandidates; i++) {
-        candidates.push(`${i}`);
-    }
+// DOM Elements
+const sampleSizeSlider = document.getElementById("sampleSize");
+const sampleSizeValue = document.getElementById("sampleSizeValue");
+const observationsEl = document.getElementById("observations");
 
-    // Create the table
-    const table = document.createElement('table');
-    table.classList.add('vote-table'); // Ensure this line is present
+// --- INITIALIZATION ---
+window.onload = () => {
+    initializeAllCharts();
+    setupEventListeners();
+    updateStats();
+    observationsEl.textContent = "Welcome! Use the controls to draw samples from the population and observe the distribution of their means.";
+};
 
-    // Create the first row (candidate names)
-    const row1 = document.createElement('tr');
-    candidates.forEach(candidate => {
-        const cell = document.createElement('td');
-        cell.textContent = candidate;
-        row1.appendChild(cell);
-    });
-    table.appendChild(row1);
-
-    // Create the second row (vote counts)
-    const row2 = document.createElement('tr');
-    voteCounts.forEach(vote => {
-        const cell = document.createElement('td');
-        cell.textContent = vote;
-        row2.appendChild(cell);
-    });
-    table.appendChild(row2);
-
-    // Append the table to the div with id "vote-table"
-    const div = document.getElementById("vote-table");
-    div.innerHTML = '';  // Clear the div before appending the new table
-    div.appendChild(table);
-}
-
-
-function initializeElection() {
-    const numCandidates = parseInt(document.getElementById("numCandidates").value);
-    // const numVoters = parseInt(document.getElementById("numVoters").value);
-
-    // Reset votes
-    voteCounts = new Array(numCandidates).fill(0);
-
-    // Generate candidate buttons
-    const container = document.getElementById("candidate-buttons");
-    container.innerHTML = "";
-    for (let i = 0; i < numCandidates; i++) {
-        const button = document.createElement("button");
-        button.textContent = `Vote Candidate ${i + 1}`;
-        button.className = "option-btn";
-        button.onclick = () => castVote(i);
-        container.appendChild(button);
-    }
-
-    // Initialize chart
-    if (voteChart) voteChart.destroy();
-    const ctx = document.getElementById("voteChart").getContext("2d");
-    voteChart = new Chart(ctx, {
-        type: "bar",
+function initializeAllCharts() {
+    // 1. Population Chart
+    const popCtx = document.getElementById('populationChart').getContext('2d');
+    populationChart = new Chart(popCtx, {
+        type: 'bar',
         data: {
-            labels: Array.from({ length: numCandidates }, (_, i) => `Candidate ${i + 1}`),
-            datasets: [
-                {
-                    label: "Votes",
-                    data: voteCounts,
-                    backgroundColor: "rgba(75, 192, 192, 0.6)",
-                    borderColor: "rgba(75, 192, 192, 1)",
-                    borderWidth: 1,
-                },
-            ],
+            labels: ['Cand. 1', 'Cand. 2', 'Cand. 3'],
+            datasets: [{
+                label: 'Proportion of Votes',
+                data: POPULATION_PROPORTIONS,
+                backgroundColor: '#4481c2',
+            }]
         },
-        options: {
-            maintainAspectRatio: false, // Disable automatic resizing
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                },
-            },
-        },
+        options: createChartOptions('True Population Distribution', true, 0, 1)
     });
-    const totalVotes = voteCounts.reduce((sum, vote) => sum + vote, 0); // Calculate the total votes
-    const voteFractions = voteCounts.map(vote => (vote / totalVotes).toFixed(2)); // Calculate and round to 2 decimal places
-    sampleSize = totalVotes;
-    displayVoteCounts(voteFractions);
-    const mean = voteCounts.reduce((sum, vote) => sum + vote, 0) / voteCounts.length;
-    const variance = voteCounts.reduce((sum, vote) => sum + Math.pow(vote - mean, 2), 0) / voteCounts.length;
-    std = Math.sqrt(variance);
-    displayStats();
 
+    // 2. Last Sample Chart
+    const lastSampleCtx = document.getElementById('lastSampleChart').getContext('2d');
+    lastSampleChart = new Chart(lastSampleCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Cand. 1', 'Cand. 2', 'Cand. 3'],
+            datasets: [{
+                label: 'Number of Votes',
+                data: [0, 0, 0],
+                backgroundColor: '#f8a557',
+            }]
+        },
+        options: createChartOptions('Most Recent Sample', false)
+    });
+
+    // 3. Sampling Distribution Chart
+    const samplingCtx = document.getElementById('samplingDistChart').getContext('2d');
+    samplingDistChart = new Chart(samplingCtx, {
+        type: 'bar',
+        data: { labels: [], datasets: [{ label: 'Frequency', data: [], backgroundColor: '#64c2a9' }] },
+        options: createChartOptions("Sampling Distribution of Candidate 1's Proportion", false, 0)
+    });
 }
 
-
-function validateInput(input) {
-    const value = parseInt(input.value, 10);
-    const errorMessage = document.getElementById('input-error');
-
-    if (value <= 0 || value >= 100 || isNaN(value)) {
-        errorMessage.style.display = "block"; // Show error message
-        input.value = ""; // Clear invalid input
-    } else {
-        errorMessage.style.display = "none"; // Hide error message
-    }
-}
-
-
-function castVote(candidateIndex) {
-    voteCounts[candidateIndex]++;
-    voteChart.data.datasets[0].data = voteCounts;
-    voteChart.update();
-    const totalVotes = voteCounts.reduce((sum, vote) => sum + vote, 0); // Calculate the total votes
-    sampleSize = totalVotes;
-    const voteFractions = voteCounts.map(vote => (vote / totalVotes).toFixed(3)); // Calculate and round to 2 decimal places
-    displayVoteCounts(voteFractions);
-    const mean = voteCounts.reduce((sum, vote) => sum + vote, 0) / voteCounts.length;
-    const variance = voteCounts.reduce((sum, vote) => sum + Math.pow(vote - mean, 2), 0) / voteCounts.length;
-    std = Math.sqrt(variance);
-    displayStats();
-
-}
-
-function checkCriticalValue() {
-    console.log("counts : ",voteCounts[0])
-    const confidence = document.getElementById("input-field-confidence").value
-    const critical = document.getElementById("input-field-critical").value
-
-    // console.log("confidence = ",confidence)
-    // console.log("critical = ",critical)
-
-    const criticalTable = {
-        50: 0.6745,
-        75: 1.150,
-        90: 1.645,
-        95: 1.960,
-        99: 2.576,
-        99.9: 3.291
+function createChartOptions(title, displayLegend, minY = undefined, maxY = undefined) {
+    return {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            title: { display: true, text: title, font: { size: 14 } },
+            legend: { display: displayLegend }
+        },
+        scales: { y: { beginAtZero: true, min: minY, max: maxY } }
     };
-    
-    const desiredCritical = criticalTable[confidence];
-    const observations = document.getElementById("observations");
-    flag = 0;
-    
-    if (desiredCritical) {
-        const errorMargin = 0.02;  // 5% error margin
-        const lowerBound = desiredCritical * (1 - errorMargin);
-        const upperBound = desiredCritical * (1 + errorMargin);
-        if (critical === undefined || critical === null || critical === '') {
-            observations.textContent = `Please enter critical value.`;
-            observations.style.color = "red";
-            flag = -1;
-        }
-        else if (critical >= lowerBound && critical <= upperBound) {
-            observations.textContent = `Critical value is correct.`;
-            observations.style.color = "green";
-            flag = 1;
-        } else {
-            observations.textContent = `Critical value is incorrect.`;
-            observations.style.color = "red";
-            flag = 0;
-        }
-    } else {
-        observations.textContent = "Invalid confidence level: " + confidence;
-        observations.style.color = "red";
-        flag = -2;
-    }
-    
-    // Scroll to the top of the page
-    window.scrollTo(0, 0);
-
-    return flag;
 }
 
-function checkStandardError(){
-    const desiredse = std/Math.sqrt(sampleSize);
-    const se = document.getElementById("input-field-se").value
-
-    const flag = checkCriticalValue();
-    let ff = 0;
-    if (flag==1) {
-        const errorMargin = 0.07;  // error margin
-        const lowerBound = desiredse * (1 - errorMargin);
-        const upperBound = desiredse * (1 + errorMargin);
-        if (se === undefined || se === null || se === '') {
-            observations.textContent = `Please enter Standard Error value.`;
-            observations.style.color = "red";
-            ff = -1;
-        }
-        else if (se >= lowerBound && se <= upperBound) {
-            observations.textContent = `Standard Error value is correct.`;
-            observations.style.color = "green";
-            ff = 1;
-        } else {
-            observations.textContent = `Standard Error value is incorrect.`;
-            observations.style.color = "red";
-            ff = 0;
-        }
-    } else {
-        observations.textContent = "Enter correct critical value first.";
-        observations.style.color = "red";
-        ff = -2;
-    }
-    
-    // Scroll to the top of the page
-    window.scrollTo(0, 0);
-    return ff;
+function setupEventListeners() {
+    sampleSizeSlider.oninput = () => {
+        sampleSizeValue.innerHTML = sampleSizeSlider.value;
+        updateStats(); // Recalculate theoretical SE
+    };
+    document.getElementById('drawOneSample').addEventListener('click', () => drawSamples(1));
+    document.getElementById('drawHundredSamples').addEventListener('click', () => drawSamples(100));
+    document.getElementById('resetSimulation').addEventListener('click', resetSimulation);
 }
 
+// --- SIMULATION LOGIC ---
 
-function checkME(){
-    const desiredme = document.getElementById("input-field-critical").value * document.getElementById("input-field-se").value;
-    const me = document.getElementById("input-field-me").value
+function drawSamples(num) {
+    const sampleSize = parseInt(sampleSizeSlider.value);
+    let lastSample;
 
-    const ff = checkStandardError();
-    if (ff==1) {
-        const errorMargin = 0.05;  // 5% error margin
-        const lowerBound = desiredme * (1 - errorMargin);
-        const upperBound = desiredme * (1 + errorMargin);
-        if (me === undefined || me === null || me === '') {
-            observations.textContent = `Please enter Margin of Error.`;
-            observations.style.color = "red";
-        }
-        else if (me >= lowerBound && me <= upperBound) {
-            observations.textContent = `Margin of Error is correct.`;
-            observations.style.color = "green";
-        } else {
-            observations.textContent = `Margin of Error is incorrect.`;
-            observations.style.color = "red";
-        }
-    } else {
-        observations.textContent = "Enter correct Standard Error First.";
-        observations.style.color = "red";
+    for (let i = 0; i < num; i++) {
+        const sample = generateOneSample(sampleSize);
+        const sampleProportion = sample[0] / sampleSize; // Proportion for Candidate 1
+        sampleMeans.push(sampleProportion);
+        lastSample = sample;
     }
-    
-    // Scroll to the top of the page
-    window.scrollTo(0, 0);
 
+    updateLastSampleChart(lastSample);
+    updateSamplingDistributionChart();
+    updateStats();
+    updateObservations(num);
 }
 
-// Initialize simulation on dropdown change
-document.getElementById("numCandidates").addEventListener("change", initializeElection);
-// document.getElementById("numVoters").addEventListener("change", initializeElection);
+function generateOneSample(sampleSize) {
+    const sampleVotes = [0, 0, 0];
+    for (let i = 0; i < sampleSize; i++) {
+        const rand = Math.random();
+        if (rand < POPULATION_PROPORTIONS[0]) {
+            sampleVotes[0]++;
+        } else if (rand < POPULATION_PROPORTIONS[0] + POPULATION_PROPORTIONS[1]) {
+            sampleVotes[1]++;
+        } else {
+            sampleVotes[2]++;
+        }
+    }
+    return sampleVotes;
+}
 
-// Load initial setup
-window.onload = initializeElection;
+function resetSimulation() {
+    sampleMeans = [];
+    // Reset charts
+    lastSampleChart.data.datasets[0].data = [0, 0, 0];
+    lastSampleChart.update();
+    updateSamplingDistributionChart();
+    // Reset stats and observations
+    updateStats();
+    observationsEl.textContent = "Simulation reset. Draw new samples to begin again.";
+}
+
+// --- CHART & STATS UPDATES ---
+
+function updateLastSampleChart(sampleData) {
+    lastSampleChart.data.datasets[0].data = sampleData;
+    lastSampleChart.update();
+}
+
+function updateSamplingDistributionChart() {
+    if (sampleMeans.length === 0) {
+        samplingDistChart.data.labels = [];
+        samplingDistChart.data.datasets[0].data = [];
+        samplingDistChart.update();
+        return;
+    }
+    const bins = createHistogramBins(sampleMeans);
+    samplingDistChart.data.labels = bins.map(b => b.label);
+    samplingDistChart.data.datasets[0].data = bins.map(b => b.count);
+    samplingDistChart.update();
+}
+
+function updateStats() {
+    const n = parseInt(sampleSizeSlider.value);
+    document.getElementById('true-mean').textContent = POPULATION_MEAN.toFixed(3);
+    document.getElementById('num-samples').textContent = sampleMeans.length;
+    
+    // Theoretical Standard Error = sqrt(p*(1-p)/n)
+    const theoreticalSE = Math.sqrt(POPULATION_MEAN * (1 - POPULATION_MEAN) / n);
+    document.getElementById('theoretical-se').textContent = theoreticalSE.toFixed(4);
+
+    if (sampleMeans.length > 1) {
+        const meanOfMeans = sampleMeans.reduce((a, b) => a + b) / sampleMeans.length;
+        document.getElementById('mean-of-means').textContent = meanOfMeans.toFixed(4);
+
+        const seOfMeans = calculateSD(sampleMeans);
+        document.getElementById('se-of-means').textContent = seOfMeans.toFixed(4);
+    } else {
+        document.getElementById('mean-of-means').textContent = 'N/A';
+        document.getElementById('se-of-means').textContent = 'N/A';
+    }
+}
+
+function updateObservations(numDrawn) {
+     if (sampleMeans.length < 2) {
+        observationsEl.textContent = "You've drawn your first sample. Notice its proportions may differ from the true population. Draw more samples to see a pattern emerge.";
+        return;
+    }
+    if (numDrawn > 1 && sampleMeans.length > 100) {
+        observationsEl.textContent = "Notice how the sampling distribution is becoming bell-shaped? This is the Central Limit Theorem! The distribution is centered near the true population proportion for Candidate 1.";
+    } else {
+        observationsEl.textContent = "Keep drawing samples. The more you draw, the more the sampling distribution on the right will resemble a normal (bell) curve.";
+    }
+
+    const meanOfMeans = parseFloat(document.getElementById('mean-of-means').textContent);
+    if (Math.abs(meanOfMeans - POPULATION_MEAN) < 0.01) {
+         observationsEl.textContent += " The mean of your sample proportions is now very close to the true population proportion!";
+    }
+}
+
+// --- HELPER FUNCTIONS ---
+
+function calculateSD(arr) {
+    const n = arr.length;
+    if (n < 2) return 0;
+    const mean = arr.reduce((a, b) => a + b) / n;
+    return Math.sqrt(arr.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / (n - 1));
+}
+
+function createHistogramBins(data, numBins = 20) {
+    if (data.length === 0) return [];
+    const minVal = Math.min(...data);
+    const maxVal = Math.max(...data);
+
+    // Handle edge case where all data points are the same
+    if (minVal === maxVal) {
+        return [{ label: minVal.toFixed(2), count: data.length }];
+    }
+    
+    const binWidth = (maxVal - minVal) / numBins;
+    let bins = [];
+    for (let i = 0; i < numBins; i++) {
+        const binMin = minVal + i * binWidth;
+        const binMax = binMin + binWidth;
+        bins.push({
+            label: `${((binMin + binMax) / 2).toFixed(2)}`,
+            count: 0,
+            min: binMin,
+            max: binMax
+        });
+    }
+
+    data.forEach(point => {
+        let binFound = false;
+        for (let bin of bins) {
+            if (point >= bin.min && point < bin.max) {
+                bin.count++;
+                binFound = true;
+                break;
+            }
+        }
+        if (!binFound) { // Add to the last bin if it's the max value
+            bins[bins.length-1].count++;
+        }
+    });
+
+    return bins;
+}
