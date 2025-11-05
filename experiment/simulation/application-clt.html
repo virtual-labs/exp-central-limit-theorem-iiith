@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,91 +7,92 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/virtual-labs/virtual-style@0.0.8-b/css/style.min.css">
     <link rel="stylesheet" href="./css/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+    <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
     <title>CLT Demonstration</title>
 </head>
-
 <body>
-
     <div class="container">
-        <div class="columns is-centered">
-            <div class="column is-full">
-                <h2 class="tasks-heading">Tasks</h2>
-            </div>
-        </div>
+        <div class="columns is-centered"><div class="column is-full"><h2 class="tasks-heading">Tasks</h2></div></div>
         <div class="columns is-centered">
             <div class="column">
                 <div class="v-tabs">
                     <ul>
-                        <li onclick="window.location.href = 'illustration-clt.html';">
-                            <a>Sub Experiment - 1</a>
-                        </li>
-                        <li class="is-active" onclick="window.location.href = 'application-clt.html';">
-                            <a>Sub Experiment - 2</a>
-                        </li>
+                        <li onclick="window.location.href = 'illustration-clt.html';"><a>Sub Experiment - 1</a></li>
+                        <li class="is-active"><a>Sub Experiment - 2</a></li>
                     </ul>
                 </div>
             </div>
         </div>
-
-        <div class="subheading-box">
-            <h3 class="title">Visualizing the Central Limit Theorem</h3>
+        <div class="subheading-box"><h3 class="title">Visualizing the Central Limit Theorem</h3></div>
+        
+        <div class="columns is-centered">
+            <div class="column is-11">
+                 <div class="v-collapsible-instruction-container v-instruction-container">
+                    <div class="v-collapsible is-size-5">Instructions</div>
+                    <div class="v-content" style="text-align: left;">
+                        <p>The <strong>Central Limit Theorem (CLT)</strong> states that the sampling distribution of the standardized sample mean from a large number of independent, identically distributed (i.i.d.) random variables will be approximately a <strong>Standard Normal Distribution</strong>, \( \mathcal{N}(0, 1) \), regardless of the original population's distribution.</p>
+                        <ul style="list-style: disc; margin-left: 20px;">
+                            <li>We begin with a randomized "True Population Distribution" with population mean \(p\) and standard deviation \(\sigma_p\).</li>
+                            <li>Each "Sample" consists of \(n\) i.i.d. draws from this population, from which we calculate a sample mean, \(\bar{x}\).</li>
+                            <li>We then standardize this mean to get a Z-score: \( Z = \frac{\bar{x} - p}{\sigma_p / \sqrt{n}} \).</li>
+                            <li>The large chart plots a histogram of these Z-scores. As you draw more samples, observe how this histogram converges to the overlaid red Gaussian curve.</li>
+                            <li>Notice how the <strong>Standard Error (\(\sigma_p / \sqrt{n}\))</strong> decreases as the sample size \(n\) increases.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <section id="page1">
+    <section id="page1" style="margin-top: 1rem;">
         <div class="columns is-centered">
             <div class="column is-8-desktop is-9-tablet">
                 <div class="white-boxed-panel">
-                    <!-- Top Controls -->
-                    <div class="election-top-controls">
-                        <div class="control-item slider-container">
+                    <div class="election-top-controls" style="display: flex; align-items: center; gap: 1.5rem; width: 100%;">
+                        <div style="white-space: nowrap;">
                             <label for="sampleSize">Sample Size (n): <span id="sampleSizeValue">100</span></label>
-                            <input type="range" id="sampleSize" min="10" max="500" value="100">
                         </div>
-                        <div class="control-item button-group">
-                            <button class="option-btn" id="drawOneSample">Draw 1 Sample</button>
+                        <div style="flex-grow: 1;">
+                            <input type="range" id="sampleSize" min="10" max="1000" value="100" step="10" style="width: 100%;">
+                        </div>
+                        <div class="button-group" style="display: flex; gap: 0.5rem;">
                             <button class="option-btn" id="drawHundredSamples">Draw 100 Samples</button>
                             <button class="option-btn reset-btn" id="resetSimulation">Reset</button>
                         </div>
                     </div>
-
-                    <!-- Main Content: Charts -->
                     <div class="election-main-content">
                         <div class="chart-column-small">
-                            <div class="chart-wrapper small">
-                                <canvas id="populationChart"></canvas>
-                            </div>
-                            <div class="chart-wrapper small">
-                                <canvas id="lastSampleChart"></canvas>
-                            </div>
+                            <div class="chart-wrapper small"><canvas id="populationChart"></canvas></div>
+                            <div class="chart-wrapper small"><canvas id="lastSampleChart"></canvas></div>
                         </div>
                         <div class="chart-column-large">
-                             <div class="chart-wrapper large">
-                                <canvas id="samplingDistChart"></canvas>
-                            </div>
+                             <div class="chart-wrapper large"><canvas id="samplingDistChart"></canvas></div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="column is-3-desktop is-12-tablet">
                 <div class="v-datalist-container components-list">
-                    <div class="v-datalist-title">Observations & Statistics</div>
+                    <div class="v-datalist-title">Simulation Statistics</div>
                     <div id="stats-display">
-                        <p><strong>True Population Proportion (Cand. 1):</strong> <span id="true-mean">0.00</span></p>
+                        <p><strong>Population Mean, \(p\):</strong> <span id="true-mean">0.00</span></p>
+                        <p><strong>Population Std. Dev., \(\sigma_p\):</strong> <span id="true-std-dev">0.00</span></p>
+                        <p><strong>Std. Error, \(\sigma_p/\sqrt{n}\):</strong> <span id="theoretical-se">N/A</span></p>
                         <hr>
-                        <p><strong>Samples Drawn:</strong> <span id="num-samples">0</span></p>
-                        <p><strong>Mean of Sample Proportions:</strong> <span id="mean-of-means">N/A</span></p>
-                        <p><strong>Standard Error (from samples):</strong> <span id="se-of-means">N/A</span></p>
-                        <p><strong>Theoretical Standard Error:</strong> <span id="theoretical-se">N/A</span></p>
+                        <p><strong>Total Samples Drawn:</strong> <span id="num-samples">0</span></p>
+                        <hr>
+                        <div id="confidence-analysis">
+                            <p><strong><u>Confidence Analysis</u></strong></p>
+                            <p>Samples within \(\pm 1\sigma\): <span id="within-1-sigma">N/A</span> (Theory: 68.3%)</p>
+                            <p>Samples within \(\pm 2\sigma\): <span id="within-2-sigma">N/A</span> (Theory: 95.4%)</p>
+                        </div>
                     </div>
-					<p id="observations" style="font-size: 1em; margin-top: 15px;"></p>
+					<div id="observations" class="observation-box"></div>
                 </div>
             </div>
         </div>
     </section>
-
     <script src="https://cdn.jsdelivr.net/gh/virtual-labs/virtual-style@0.0.8-b/js/script.js"></script>
     <script src="./js/application-clt.js"></script>
-
 </body>
 </html>

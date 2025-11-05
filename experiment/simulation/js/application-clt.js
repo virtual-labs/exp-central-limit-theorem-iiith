@@ -1,134 +1,125 @@
 // --- SCRIPT FOR CLT DEMONSTRATION (application-clt.js) ---
 
-// Chart instances
 let populationChart, lastSampleChart, samplingDistChart;
+let POPULATION_PROPORTIONS = [];
+let POPULATION_MEAN = 0;
+let POPULATION_STD_DEV = 0;
+let standardizedMeans = [];
 
-// Data stores
-const POPULATION_PROPORTIONS = [0.45, 0.35, 0.20]; // True proportions for 3 candidates
-const POPULATION_MEAN = POPULATION_PROPORTIONS[0]; // Focusing on Candidate 1
-let sampleMeans = []; // To store the mean (proportion) of each sample
-
-// DOM Elements
 const sampleSizeSlider = document.getElementById("sampleSize");
 const sampleSizeValue = document.getElementById("sampleSizeValue");
 const observationsEl = document.getElementById("observations");
 
-// --- INITIALIZATION ---
 window.onload = () => {
     initializeAllCharts();
     setupEventListeners();
-    updateStats();
-    observationsEl.textContent = "Welcome! Use the controls to draw samples from the population and observe the distribution of their means.";
+    resetSimulation();
 };
 
 function initializeAllCharts() {
-    // 1. Population Chart
     const popCtx = document.getElementById('populationChart').getContext('2d');
     populationChart = new Chart(popCtx, {
         type: 'bar',
-        data: {
-            labels: ['Cand. 1', 'Cand. 2', 'Cand. 3'],
-            datasets: [{
-                label: 'Proportion of Votes',
-                data: POPULATION_PROPORTIONS,
-                backgroundColor: '#4481c2',
-            }]
-        },
+        data: { labels: ['Cand. 1', 'Cand. 2', 'Cand. 3'], datasets: [{ label: 'Proportion of Votes', data: [], backgroundColor: '#4481c2' }] },
         options: createChartOptions('True Population Distribution', true, 0, 1)
     });
 
-    // 2. Last Sample Chart
     const lastSampleCtx = document.getElementById('lastSampleChart').getContext('2d');
     lastSampleChart = new Chart(lastSampleCtx, {
         type: 'bar',
-        data: {
-            labels: ['Cand. 1', 'Cand. 2', 'Cand. 3'],
-            datasets: [{
-                label: 'Number of Votes',
-                data: [0, 0, 0],
-                backgroundColor: '#f8a557',
-            }]
-        },
+        data: { labels: ['Cand. 1', 'Cand. 2', 'Cand. 3'], datasets: [{ label: 'Number of Votes', data: [0, 0, 0], backgroundColor: '#f8a557' }] },
         options: createChartOptions('Most Recent Sample', false)
     });
 
-    // 3. Sampling Distribution Chart
     const samplingCtx = document.getElementById('samplingDistChart').getContext('2d');
     samplingDistChart = new Chart(samplingCtx, {
-        type: 'bar',
-        data: { labels: [], datasets: [{ label: 'Frequency', data: [], backgroundColor: '#64c2a9' }] },
-        options: createChartOptions("Sampling Distribution of Candidate 1's Proportion", false, 0)
+        type: 'bar', 
+        data: { labels: [], datasets: [
+            { type: 'bar', label: 'Frequency of Z-scores', data: [], backgroundColor: 'rgba(100, 194, 169, 0.7)', barPercentage: 1.0, categoryPercentage: 1.0, order: 2 },
+            { type: 'line', label: 'Standard Normal PDF', data: [], borderColor: '#e53935', borderWidth: 2.5, pointRadius: 0, fill: false, order: 1 },
+            { type: 'line', label: '±1σ, ±2σ', data: [], borderColor: 'rgba(40, 40, 40, 0.4)', borderWidth: 1.5, borderDash: [6, 6], fill: false, order: 0 }
+        ]},
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { title: { display: true, text: "Sampling Distribution of the Standardized Mean (Z)", font: { size: 14 } }, legend: { display: true, position: 'bottom', labels: { boxWidth: 15 } } },
+            scales: { x: { type: 'linear', min: -4, max: 4 }, y: { beginAtZero: true } }
+        }
     });
 }
 
-function createChartOptions(title, displayLegend, minY = undefined, maxY = undefined) {
+function createChartOptions(title, displayLegend, minY, maxY) {
     return {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            title: { display: true, text: title, font: { size: 14 } },
-            legend: { display: displayLegend }
-        },
+        responsive: true, maintainAspectRatio: false,
+        plugins: { title: { display: true, text: title, font: { size: 14 } }, legend: { display: displayLegend } },
         scales: { y: { beginAtZero: true, min: minY, max: maxY } }
     };
 }
 
 function setupEventListeners() {
-    sampleSizeSlider.oninput = () => {
-        sampleSizeValue.innerHTML = sampleSizeSlider.value;
-        updateStats(); // Recalculate theoretical SE
-    };
-    document.getElementById('drawOneSample').addEventListener('click', () => drawSamples(1));
+    sampleSizeSlider.oninput = () => { sampleSizeValue.innerHTML = sampleSizeSlider.value; updateStats(); };
     document.getElementById('drawHundredSamples').addEventListener('click', () => drawSamples(100));
     document.getElementById('resetSimulation').addEventListener('click', resetSimulation);
 }
 
-// --- SIMULATION LOGIC ---
+function generateRandomPopulation() {
+    let r1 = Math.random(), r2 = Math.random(), r3 = Math.random();
+    const sum = r1 + r2 + r3;
+    POPULATION_PROPORTIONS = [r1 / sum, r2 / sum, r3 / sum];
+    POPULATION_MEAN = POPULATION_PROPORTIONS[0];
+    POPULATION_STD_DEV = Math.sqrt(POPULATION_MEAN * (1 - POPULATION_MEAN));
+}
 
 function drawSamples(num) {
     const sampleSize = parseInt(sampleSizeSlider.value);
+    const theoreticalSE = POPULATION_STD_DEV / Math.sqrt(sampleSize);
     let lastSample;
+    if (theoreticalSE === 0) {
+        alert("Population standard deviation is zero. Please reset the simulation to get a new population.");
+        return;
+    }
 
     for (let i = 0; i < num; i++) {
         const sample = generateOneSample(sampleSize);
-        const sampleProportion = sample[0] / sampleSize; // Proportion for Candidate 1
-        sampleMeans.push(sampleProportion);
+        const sampleProportion = sample[0] / sampleSize;
+        const standardizedMean = (sampleProportion - POPULATION_MEAN) / theoreticalSE;
+        standardizedMeans.push(standardizedMean);
         lastSample = sample;
     }
 
     updateLastSampleChart(lastSample);
     updateSamplingDistributionChart();
     updateStats();
-    updateObservations(num);
+    updateObservations();
 }
 
 function generateOneSample(sampleSize) {
     const sampleVotes = [0, 0, 0];
+    const p1 = POPULATION_PROPORTIONS[0];
+    const p12 = p1 + POPULATION_PROPORTIONS[1];
     for (let i = 0; i < sampleSize; i++) {
         const rand = Math.random();
-        if (rand < POPULATION_PROPORTIONS[0]) {
-            sampleVotes[0]++;
-        } else if (rand < POPULATION_PROPORTIONS[0] + POPULATION_PROPORTIONS[1]) {
-            sampleVotes[1]++;
-        } else {
-            sampleVotes[2]++;
-        }
+        if (rand < p1) sampleVotes[0]++;
+        else if (rand < p12) sampleVotes[1]++;
+        else sampleVotes[2]++;
     }
     return sampleVotes;
 }
 
 function resetSimulation() {
-    sampleMeans = [];
-    // Reset charts
+    standardizedMeans = [];
+    generateRandomPopulation();
+    
+    populationChart.data.datasets[0].data = POPULATION_PROPORTIONS;
+    populationChart.update();
     lastSampleChart.data.datasets[0].data = [0, 0, 0];
     lastSampleChart.update();
+    
     updateSamplingDistributionChart();
-    // Reset stats and observations
     updateStats();
-    observationsEl.textContent = "Simulation reset. Draw new samples to begin again.";
+    observationsEl.innerHTML = "A new random population has been generated. Draw samples to observe the CLT.";
+    document.getElementById('within-1-sigma').textContent = 'N/A';
+    document.getElementById('within-2-sigma').textContent = 'N/A';
 }
-
-// --- CHART & STATS UPDATES ---
 
 function updateLastSampleChart(sampleData) {
     lastSampleChart.data.datasets[0].data = sampleData;
@@ -136,101 +127,82 @@ function updateLastSampleChart(sampleData) {
 }
 
 function updateSamplingDistributionChart() {
-    if (sampleMeans.length === 0) {
-        samplingDistChart.data.labels = [];
-        samplingDistChart.data.datasets[0].data = [];
-        samplingDistChart.update();
-        return;
-    }
-    const bins = createHistogramBins(sampleMeans);
-    samplingDistChart.data.labels = bins.map(b => b.label);
-    samplingDistChart.data.datasets[0].data = bins.map(b => b.count);
+    const numBins = 40;
+    const bins = createHistogramBins(standardizedMeans, -4, 4, numBins);
+    
+    samplingDistChart.data.datasets[0].data = bins;
+
+    const maxY = standardizedMeans.length > 0 ? Math.max(...bins.map(b => b.y), 1) : 1;
+    const binWidth = 8 / numBins;
+
+    const gaussianData = generateGaussianData(bins, standardizedMeans.length, binWidth);
+    samplingDistChart.data.datasets[1].data = gaussianData;
+
+    const sigmaLineData = [
+        {x: -2, y: 0}, {x: -2, y: maxY * 1.05}, {x: NaN, y: NaN},
+        {x: -1, y: 0}, {x: -1, y: maxY * 1.05}, {x: NaN, y: NaN},
+        {x: 1, y: 0}, {x: 1, y: maxY * 1.05}, {x: NaN, y: NaN},
+        {x: 2, y: 0}, {x: 2, y: maxY * 1.05}
+    ];
+    samplingDistChart.data.datasets[2].data = sigmaLineData;
+    samplingDistChart.options.scales.y.max = maxY * 1.1;
+
     samplingDistChart.update();
 }
 
 function updateStats() {
     const n = parseInt(sampleSizeSlider.value);
-    document.getElementById('true-mean').textContent = POPULATION_MEAN.toFixed(3);
-    document.getElementById('num-samples').textContent = sampleMeans.length;
+    document.getElementById('true-mean').textContent = POPULATION_MEAN.toFixed(4);
+    document.getElementById('true-std-dev').textContent = POPULATION_STD_DEV.toFixed(4);
     
-    // Theoretical Standard Error = sqrt(p*(1-p)/n)
-    const theoreticalSE = Math.sqrt(POPULATION_MEAN * (1 - POPULATION_MEAN) / n);
-    document.getElementById('theoretical-se').textContent = theoreticalSE.toFixed(4);
+    const theoreticalSE = POPULATION_STD_DEV / Math.sqrt(n);
+    document.getElementById('theoretical-se').textContent = isNaN(theoreticalSE) ? 'N/A' : theoreticalSE.toFixed(4);
+    document.getElementById('num-samples').textContent = standardizedMeans.length;
 
-    if (sampleMeans.length > 1) {
-        const meanOfMeans = sampleMeans.reduce((a, b) => a + b) / sampleMeans.length;
-        document.getElementById('mean-of-means').textContent = meanOfMeans.toFixed(4);
-
-        const seOfMeans = calculateSD(sampleMeans);
-        document.getElementById('se-of-means').textContent = seOfMeans.toFixed(4);
+    if (standardizedMeans.length > 1) {
+        const within1Sigma = standardizedMeans.filter(z => z >= -1 && z <= 1).length / standardizedMeans.length * 100;
+        const within2Sigma = standardizedMeans.filter(z => z >= -2 && z <= 2).length / standardizedMeans.length * 100;
+        document.getElementById('within-1-sigma').textContent = `${within1Sigma.toFixed(1)}%`;
+        document.getElementById('within-2-sigma').textContent = `${within2Sigma.toFixed(1)}%`;
     } else {
-        document.getElementById('mean-of-means').textContent = 'N/A';
-        document.getElementById('se-of-means').textContent = 'N/A';
+        document.getElementById('within-1-sigma').textContent = 'N/A';
+        document.getElementById('within-2-sigma').textContent = 'N/A';
     }
 }
 
-function updateObservations(numDrawn) {
-     if (sampleMeans.length < 2) {
-        observationsEl.textContent = "You've drawn your first sample. Notice its proportions may differ from the true population. Draw more samples to see a pattern emerge.";
+function updateObservations() {
+    if (standardizedMeans.length < 100) {
+        observationsEl.innerHTML = "";
         return;
-    }
-    if (numDrawn > 1 && sampleMeans.length > 100) {
-        observationsEl.textContent = "Notice how the sampling distribution is becoming bell-shaped? This is the Central Limit Theorem! The distribution is centered near the true population proportion for Candidate 1.";
-    } else {
-        observationsEl.textContent = "Keep drawing samples. The more you draw, the more the sampling distribution on the right will resemble a normal (bell) curve.";
-    }
+    };
 
-    const meanOfMeans = parseFloat(document.getElementById('mean-of-means').textContent);
-    if (Math.abs(meanOfMeans - POPULATION_MEAN) < 0.01) {
-         observationsEl.textContent += " The mean of your sample proportions is now very close to the true population proportion!";
-    }
+    const mean = standardizedMeans.reduce((a, b) => a + b) / standardizedMeans.length;
+    const std = calculateSD(standardizedMeans);
+    observationsEl.innerHTML = `With a sufficient number of samples, the histogram of Z-scores is closely matching the Standard Normal curve. <br><br>Your distribution's mean is <strong>${mean.toFixed(3)}</strong> (vs. theory of 0) and its standard deviation is <strong>${std.toFixed(3)}</strong> (vs. theory of 1).`;
 }
-
-// --- HELPER FUNCTIONS ---
 
 function calculateSD(arr) {
-    const n = arr.length;
-    if (n < 2) return 0;
-    const mean = arr.reduce((a, b) => a + b) / n;
-    return Math.sqrt(arr.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / (n - 1));
+    if (arr.length < 2) return 0;
+    const mean = arr.reduce((a, b) => a + b) / arr.length;
+    return Math.sqrt(arr.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / (arr.length - 1));
 }
 
-function createHistogramBins(data, numBins = 20) {
-    if (data.length === 0) return [];
-    const minVal = Math.min(...data);
-    const maxVal = Math.max(...data);
-
-    // Handle edge case where all data points are the same
-    if (minVal === maxVal) {
-        return [{ label: minVal.toFixed(2), count: data.length }];
-    }
+function createHistogramBins(data, min, max, numBins) {
+    const binWidth = (max - min) / numBins;
+    let bins = Array(numBins).fill(0).map((_, i) => ({ x: min + (i + 0.5) * binWidth, y: 0 }));
+    if (data.length === 0) return bins;
     
-    const binWidth = (maxVal - minVal) / numBins;
-    let bins = [];
-    for (let i = 0; i < numBins; i++) {
-        const binMin = minVal + i * binWidth;
-        const binMax = binMin + binWidth;
-        bins.push({
-            label: `${((binMin + binMax) / 2).toFixed(2)}`,
-            count: 0,
-            min: binMin,
-            max: binMax
-        });
-    }
-
     data.forEach(point => {
-        let binFound = false;
-        for (let bin of bins) {
-            if (point >= bin.min && point < bin.max) {
-                bin.count++;
-                binFound = true;
-                break;
-            }
-        }
-        if (!binFound) { // Add to the last bin if it's the max value
-            bins[bins.length-1].count++;
-        }
+        const binIndex = Math.floor((point - min) / binWidth);
+        if (binIndex >= 0 && binIndex < numBins) bins[binIndex].y++;
     });
-
     return bins;
+}
+
+function generateGaussianData(bins, totalSamples, binWidth) {
+    return bins.map(bin => {
+        const x = bin.x;
+        const pdfValue = (1 / Math.sqrt(2 * Math.PI)) * Math.exp(-0.5 * x * x);
+        return { x: x, y: pdfValue * totalSamples * binWidth };
+    });
 }
