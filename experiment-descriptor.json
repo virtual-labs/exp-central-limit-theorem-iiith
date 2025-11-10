@@ -33,7 +33,7 @@
         "content-type": "text"
       },
       {
-        "target": "illustration-clt.html",
+        "target": "exp1.html",
         "source": "simulation/illustration-clt.html",
         "label": "Experiments",
         "unit-type": "task",
