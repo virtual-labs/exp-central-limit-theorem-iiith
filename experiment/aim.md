@@ -1,5 +1,3 @@
-### Aim of the experiment
-
 The experiment aims to provide the user an introduction to the Central Limit Theorem, its proof and how widely this theorem is applicable in real-life scenarios. More specifically, the experiment aims to :-
 
 - State and explain the central limit theorem with a few examples.

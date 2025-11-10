@@ -1,7 +1,3 @@
-## Theory
-
-### Central Limit Theorem (CLT)
-
 The **Central Limit Theorem (CLT)** is one of the foundational results in probability theory and statistics. It explains how, under certain conditions, the distribution of the sample mean (or normalized sum) converges to a normal distribution, even if the original data is not normally distributed.
 
 #### Statement of CLT
@@ -25,9 +21,11 @@ $$
 1. **Mean of Sample Means**:
 
    - The mean of the sample means is equal to the population mean $ \mu $.
+
 2. **Variance of Sample Means**:
 
    - The variance of the sample means is $ \sigma^2 / n $, which decreases as the sample size increases.
+
 3. **Normal Approximation**:
 
    - The approximation improves with larger sample sizes.
@@ -79,7 +77,7 @@ $$
 S_n = \frac{1}{\sqrt{n}} \sum_{i=1}^n \left( X_i - \mu \right)
 $$
 
-The characteristic function of $ S_n $, denoted $ \phi_{S_n}(t) $, is given by:
+The characteristic function of $ S*n $, denoted $ \phi*{S_n}(t) $, is given by:
 
 $$
 \phi_{S_n}(t) = \left[ \phi_X\left( \frac{t}{\sqrt{n}} \right) \right]^n
@@ -91,7 +89,7 @@ $$
 \phi_X(t) \approx 1 - \frac{\sigma^2 t^2}{2} + o(t^2)
 $$
 
-Substituting this into $ \phi_{S_n}(t) $, it can be shown that:
+Substituting this into $ \phi\_{S_n}(t) $, it can be shown that:
 
 $$
 \phi_{S_n}(t) \to e^{-t^2 / 2} \quad \text{as } n \to \infty
