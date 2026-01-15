@@ -1,4 +1,4 @@
-This experiment aims to provide an intuitive idea of how central limit theorem is useful using visualization of CLT for various distributions like uniform, gaussian, exponential, poisson, etc..
+This experiment aims to provide an intuitive idea of how central limit theorem is useful using visualizing CLT for various distributions like uniform, Gaussian, exponential, Poisson, etc..
 
 - Choose a distribution from the list of uniform, exponential, normal, or poisson
 - Use the slider to choose a sample size. This determines how accurate the mean of a sample is.
