@@ -4,15 +4,15 @@ The **Central Limit Theorem (CLT)** is one of the foundational results in probab
 
 Let $ X_1, X_2, \ldots, X_n $ be a sequence of independent and identically distributed (i.i.d.) random variables with mean $ \mu $ and variance $ \sigma^2 $. Define the normalized sum:
 
-$$
+$$\begin{equation}
 S_n = \frac{1}{\sqrt{n}} \sum_{i=1}^n \left( X_i - \mu \right)
-$$
+\end{equation}$$
 
 As $ n \to \infty $, the distribution of $ S_n $ approaches a standard normal distribution $ N(0, 1) $, regardless of the original distribution of $ X_i $ (provided certain conditions, like finite mean and variance, are met):
 
-$$
+$$\begin{equation}
 S_n \xrightarrow{d} N(0, 1)
-$$
+\end{equation}$$
 
 ---
 
@@ -42,9 +42,9 @@ $$
 
 The **characteristic function** of a random variable $ X $ is a powerful tool in probability theory, defined as:
 
-$$
+$$\begin{equation}
 \phi_X(t) = \mathbb{E}\left[ e^{itX} \right]
-$$
+\end{equation}$$
 
 where $ i $ is the imaginary unit and $ t $ is a real parameter.
 
@@ -53,9 +53,9 @@ where $ i $ is the imaginary unit and $ t $ is a real parameter.
 1. **Existence**: The characteristic function always exists for any random variable.
 2. **Uniqueness**: It uniquely determines the probability distribution of a random variable.
 3. **Convolution Property**: The characteristic function of the sum of independent random variables is the product of their individual characteristic functions:
-   $$
+   $$\begin{equation}
    \phi_{X+Y}(t) = \phi_X(t) \cdot \phi_Y(t)
-   $$
+   \end{equation}$$
 4. **Inversion Formula**: A random variable's probability density function (PDF) can be recovered from its characteristic function using the inverse Fourier transform.
 
 ---
@@ -73,27 +73,27 @@ Characteristic functions simplify the proof and understanding of the Central Lim
 
 Let $ X_1, X_2, \ldots, X_n $ be i.i.d. random variables with mean $ \mu $ and variance $ \sigma^2 $. Define:
 
-$$
+$$\begin{equation}
 S_n = \frac{1}{\sqrt{n}} \sum_{i=1}^n \left( X_i - \mu \right)
-$$
+\end{equation}$$
 
 The characteristic function of $ S*n $, denoted $ \phi*{S_n}(t) $, is given by:
 
-$$
+$$\begin{equation}
 \phi_{S_n}(t) = \left[ \phi_X\left( \frac{t}{\sqrt{n}} \right) \right]^n
-$$
+\end{equation}$$
 
 For large $ n $, the Taylor expansion of $ \phi_X(t) $ around $ t = 0 $ can be used:
 
-$$
+$$\begin{equation}
 \phi_X(t) \approx 1 - \frac{\sigma^2 t^2}{2} + o(t^2)
-$$
+\end{equation}$$
 
 Substituting this into $ \phi\_{S_n}(t) $, it can be shown that:
 
-$$
+$$\begin{equation}
 \phi_{S_n}(t) \to e^{-t^2 / 2} \quad \text{as } n \to \infty
-$$
+\end{equation}$$
 
 This is the characteristic function of a standard normal distribution $ \mathcal{N}(0, 1) $, proving the CLT.
 
