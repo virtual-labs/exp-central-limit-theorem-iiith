@@ -2,38 +2,72 @@
   "version": 2.0,
   "questions": [
     {
-      "question": "This is a Sample Question 1?",
+      "question": "1: How does the characteristic function help prove the CLT?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "It simplifies the calculation of the population mean.",
+        "b": "It shows that the distribution of normalized sums converges to $\\exp\\left(\\frac{-t^2}{2}\\right)$",
+        "c": "It demonstrates the uniqueness of the sample mean.",
+        "d": "It avoids the use of independence in CLT proofs."
       },
       "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
+        "a": "The characteristic function doesn't simplify the calculation of the mean.",
+        "b": "The characteristic function of the normalized sum $ \\phi_{S_n}(t) $ converges to $\\exp\\left(\\frac{-t^2}{2}\\right)$, the characteristic function of a standard normal distribution, proving the CLT.",
+        "c": "Uniqueness of the sample mean is unrelated to characteristic functions.",
+        "d": "Independence is essential for the CLT."
       },
-      "correctAnswer": "a",
-      "difficulty": "beginner"
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
     },
     {
-      "question": "This is a Sample Question 2?",
+      "question": "2: What happens to the rate of convergence to normality in the CLT if the population distribution is highly skewed?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "Convergence happens faster.",
+        "b": "Convergence happens slower.",
+        "c": "Convergence does not occur.",
+        "d": "Convergence depends on the sample size only, not skewness."
       },
       "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
+        "a": "Skewness slows convergence.",
+        "b": "A highly skewed population distribution requires a larger sample size for the sample mean's distribution to approximate normality.",
+        "c": "Convergence still occurs with a sufficiently large sample size.",
+        "d": "Skewness does affect the rate of convergence."
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "3: Consider a distribution where $ X_i $ has infinite variance. Can the CLT still apply?",
+      "answers": {
+        "a": "Yes, as long as the mean is finite.",
+        "b": "Yes, but only if $ X_i $ are not identically distributed.",
+        "c": "No, because variance is crucial for the CLT to hold.",
+        "d": "No, because the CLT does not depend on variance."
+      },
+      "explanations": {
+        "a": "Finite variance is also a requirement.",
+        "b": "The CLT generally requires i.i.d. random variables.",
+        "c": "The CLT requires finite mean and variance to hold.",
+        "d": "The variance is central to the theorem."
       },
       "correctAnswer": "c",
-      "difficulty": "beginner"
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "4: Which statement about the sample variance $ S^2 $ is true in the context of CLT?",
+      "answers": {
+        "a": "$ S^2 $ is unbiased for $\\sigma^2$.",
+        "b": "$ S^2 $ converges to $\\frac{\\sigma^2}{n}$ as $n \\to \\infty$.",
+        "c": "$ S^2 $ converges to a normal distribution as $n \\to \\infty$.",
+        "d": "$ S^2 $ is irrelevant to the CLT."
+      },
+      "explanations": {
+        "a": "The sample variance $ S^2 $ is an unbiased estimator for $\\sigma^2$, though it is not directly central to the CLT itself.",
+        "b": "$ S^2 $ itself does not converge to $\\frac{\\sigma^2}{n}$; instead, the variance of the sample mean behaves this way.",
+        "c": "$ S^2 $ does not converge to a normal distribution.",
+        "d": "$ S^2 $ is indirectly related to the CLT."
+      },
+      "correctAnswer": "a",
+      "difficulty": "intermediate"
     }
   ]
 }

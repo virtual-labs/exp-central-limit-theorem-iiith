@@ -1,1 +1,1 @@
-## Experiment name
+## Central Limit Theorem

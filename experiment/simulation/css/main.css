@@ -1,1 +1,83 @@
-/* You CSS goes in here */
+/* Container for the charts */
+.charts-container {
+    display: flex;             /* Use flexbox for side-by-side layout */
+    justify-content: center;   /* Center the charts horizontally */
+    gap: 20px;                 /* Add space between the charts */
+    margin: 20px 0;            /* Add some margin above and below the container */
+    flex-wrap: wrap;           /* Allow wrapping on smaller screens */
+    width: 100%;               /* Ensure the container takes up full width */
+}
+
+/* Individual chart wrapper */
+.chart-wrapper {
+    flex: 1;                     /* Distribute available space equally */
+    min-width: 300px;            /* Ensure they don't get too small */
+    max-width: 600px;            /* Limit the width to prevent charts from getting too wide */
+    height: 500px;               /* Set the height of each chart, adjust as needed */
+    position: relative;          /* Ensure proper layout */
+}
+
+/* Canvas for charts */
+canvas {
+    width: 100%;                 /* Make canvas fill the wrapper width */
+    height: 100%;                /* Make canvas fill the wrapper height */
+}
+
+
+/* Media Query for smaller screens */
+@media (max-width: 768px) {
+    .chart-wrapper {
+        width: 45%;            /* Make the charts take up 45% of the container width */
+        height: 250px;         /* Adjust the height of the charts for smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .chart-wrapper {
+        width: 100%;           /* Full width on very small screens */
+        height: 200px;         /* Adjust the height further for smaller screens */
+    }
+}
+
+
+.controls {
+    display: flex;             /* Use flexbox to arrange children in a row */
+    justify-content: space-between; /* Distribute space evenly between controls */
+    gap: 20px;                 /* Add space between each control group */
+    flex-wrap: wrap;           /* Allow wrapping on smaller screens */
+    margin: 20px 0;            /* Add some margin around the controls container */
+}
+
+.control-group, .slider-container {
+    display: flex;             /* Use flexbox for each control group */
+    flex-direction: column;    /* Stack label and input/slider vertically */
+    justify-content: center;   /* Center the items within the group */
+    width: 30%;                /* Adjust the width of each control group */
+}
+
+label {
+    margin-bottom: 5px;        /* Add some space below the label */
+}
+
+input[type="range"] {
+    width: 100%;               /* Make the range slider fill the container */
+}
+
+/* Optional: Adjust slider value display position */
+.slider-value {
+    margin-top: 5px;           /* Add some space above the value display */
+    /* font-weight: bold;         Make the value display bold */
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .control-group, .slider-container {
+        width: 45%;            /* Use more width on medium screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .control-group, .slider-container {
+        width: 100%;           /* Full width on very small screens */
+    }
+}
