@@ -6,7 +6,7 @@ Let $ X_1, X_2, \ldots, X_n $ be a sequence of independent and identically distr
 
 $$
 \begin{equation}
-S_n = \frac{1}{\sqrt{n}} \sum_{i=1}^n \left( X_i - \mu \right)
+S_n = \frac{1}{\sigma\sqrt{n}} \sum_{i=1}^n \left( X_i - \mu \right)
 \end{equation}
 $$
 
