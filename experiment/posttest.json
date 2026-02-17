@@ -53,7 +53,7 @@
       "difficulty": "intermediate"
     },
     {
-      "question": "4: Which statement about the sample variance represented by $ \\hat{\\sigma^2} $ is true in the context of CLT?",
+      "question": "4: Which statement about the sample variance represented by $ \\hat{\\sigma^2} = \\frac{1}{n-1} \\sum_{i=1}^{n} (X_i - \\bar{X})^2 $ is true in the context of CLT?",
       "answers": {
         "a": "$ \\hat{\\sigma^2} $ is unbiased for $\\sigma^2$.",
         "b": "$ \\hat{\\sigma^2} $ converges to $\\frac{\\sigma^2}{n}$ as $n \\to \\infty$.",

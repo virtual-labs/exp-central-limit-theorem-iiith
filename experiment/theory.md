@@ -85,7 +85,7 @@ S_n = \frac{1}{\sqrt{n}} \sum_{i=1}^n \left( X_i - \mu \right)
 \end{equation}
 $$
 
-The characteristic function of $ S*n $, denoted $ \phi*{S_n}(t) $, is given by:
+The characteristic function of $ S_n $, denoted $ \phi_{S_n}(t) $, is given by:
 
 $$
 \begin{equation}
