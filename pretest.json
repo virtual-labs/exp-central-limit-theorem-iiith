@@ -1,0 +1,73 @@
+{
+  "version": 2.0,
+  "questions": [
+    {
+      "question": "1: What does the Central Limit Theorem state about the sample mean?",
+      "answers": {
+        "a": "The sample mean will always equal the population mean.",
+        "b": "The sample mean follows the same distribution as the population distribution.",
+        "c": "The distribution of the sample mean approaches a normal distribution as the sample size increases.",
+        "d": "The sample mean has a variance larger than the population variance."
+      },
+      "explanations": {
+        "a": "The sample mean only approximates the population mean but isn't always exactly equal.",
+        "b": "The sample mean's distribution depends on the sample size and may not follow the population's original distribution.",
+        "c": "The CLT states that regardless of the original population's distribution, the sample mean will approach a normal distribution as the sample size increases.",
+        "d": "The sample mean's variance decreases as the sample size increases."
+      },
+      "correctAnswer": "c",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "2: Which of the following conditions must be satisfied for the CLT to hold?",
+      "answers": {
+        "a": "The population must be normally distributed.",
+        "b": "The sample size must be sufficiently large.",
+        "c": "The random variables must be independent and identically distributed (i.i.d.).",
+        "d": "Both b and c."
+      },
+      "explanations": {
+        "a": "The population does not need to be normally distributed for the CLT to apply.",
+        "b": "Sample size alone is not sufficient; independence and identical distribution are also required.",
+        "c": "i.i.d rv alone is insufficient because a small sample size might not show the convergence described by the CLT.",
+        "d": "The CLT holds when random variables are i.i.d. and the sample size is sufficiently large."
+      },
+      "correctAnswer": "d",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "3: If the population has a mean $ \\mu = 10 $ and variance $ \\sigma^2 = 4 $, what is the variance of the sample mean for a sample size $ n = 16 $ ?",
+      "answers": {
+        "a": "4",
+        "b": "0.25",
+        "c": "1",
+        "d": "0.5"
+      },
+      "explanations": {
+        "a": "This is the variance of the population, not the sample mean.",
+        "b": "The variance of the sample mean is given by $ \\frac{\\sigma^2}{n} $. For $ \\sigma^2 = 4 $ and $ n = 16 $ we can calculate the value as $ 0.25 $.",
+        "c": "Misapplication of the formula for sample variance.",
+        "d": "Misapplication of the formula for sample variance."
+      },
+      "correctAnswer": "b",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "4: The Central Limit Theorem can be applied to which of the following scenarios?",
+      "answers": {
+        "a": "Calculating the average weight of individuals in a city using a sample.",
+        "b": "Studying the variance of a single dataset with $ n = 10 $.",
+        "c": "Summing independent and identically distributed random variables.",
+        "d": "Both a and c."
+      },
+      "explanations": {
+        "a": "a is also correct as it involves calculating a sample mean.",
+        "b": "The CLT applies to sums or averages, not to variance.",
+        "c": "c is also correct as summing i.i.d. random variables is part of the CLT framework.",
+        "d": "The CLT applies to sums or averages of i.i.d. random variables."
+      },
+      "correctAnswer": "d",
+      "difficulty": "beginner"
+    }
+  ]
+}

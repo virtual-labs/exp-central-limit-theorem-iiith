@@ -1,0 +1,16 @@
+
+/home/runner/work/exp-central-limit-theorem-iiith/exp-central-limit-theorem-iiith/experiment/simulation/js/application-clt.js
+   21:27  warning  'Chart' is not defined  no-undef
+   28:27  warning  'Chart' is not defined  no-undef
+   35:29  warning  'Chart' is not defined  no-undef
+  177:6   warning  Unnecessary semicolon   no-extra-semi
+
+/home/runner/work/exp-central-limit-theorem-iiith/exp-central-limit-theorem-iiith/experiment/simulation/js/illustration-clt.js
+   34:21  warning  Unexpected lexical declaration in case block  no-case-declarations
+   35:21  warning  Unexpected lexical declaration in case block  no-case-declarations
+  153:29  warning  'Chart' is not defined                        no-undef
+  155:28  warning  'Chart' is not defined                        no-undef
+
+✖ 8 problems (0 errors, 8 warnings)
+  0 errors and 1 warning potentially fixable with the `--fix` option.
+
