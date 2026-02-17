@@ -53,18 +53,18 @@
       "difficulty": "intermediate"
     },
     {
-      "question": "4: Which statement about the sample variance $ S^2 $ is true in the context of CLT?",
+      "question": "4: Which statement about the sample variance represented by $ \\hat{\\sigma^2} = \\frac{1}{n-1} \\sum_{i=1}^{n} (X_i - \\bar{X})^2$, where the sample mean is defined as \\( \\bar{X} = \\frac{1}{n} \\sum_{i=1}^{n} X_i \\); is true in the context of CLT?",
       "answers": {
-        "a": "$ S^2 $ is unbiased for $\\sigma^2$.",
-        "b": "$ S^2 $ converges to $\\frac{\\sigma^2}{n}$ as $n \\to \\infty$.",
-        "c": "$ S^2 $ converges to a normal distribution as $n \\to \\infty$.",
-        "d": "$ S^2 $ is irrelevant to the CLT."
+        "a": "$ \\hat{\\sigma^2} $ is unbiased for $\\sigma^2$.",
+        "b": "$ \\hat{\\sigma^2} $ converges to $\\frac{\\sigma^2}{n}$ as $n \\to \\infty$.",
+        "c": "$ \\hat{\\sigma^2} $ converges to a normal distribution as $n \\to \\infty$.",
+        "d": "$ \\hat{\\sigma^2} $ is irrelevant to the CLT."
       },
       "explanations": {
-        "a": "The sample variance $ S^2 $ is an unbiased estimator for $\\sigma^2$, though it is not directly central to the CLT itself.",
-        "b": "$ S^2 $ itself does not converge to $\\frac{\\sigma^2}{n}$; instead, the variance of the sample mean behaves this way.",
-        "c": "$ S^2 $ does not converge to a normal distribution.",
-        "d": "$ S^2 $ is indirectly related to the CLT."
+        "a": "The sample variance $ \\hat{\\sigma^2} $ is an unbiased estimator for $\\sigma^2$, though it is not directly central to the CLT itself.",
+        "b": "$ \\hat{\\sigma^2} $ itself does not converge to $\\frac{\\sigma^2}{n}$; instead, the variance of the sample mean behaves this way.",
+        "c": "$ \\hat{\\sigma^2} $ does not converge to a normal distribution.",
+        "d": "$ \\hat{\\sigma^2} $ is indirectly related to the CLT."
       },
       "correctAnswer": "a",
       "difficulty": "intermediate"
